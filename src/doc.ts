@@ -36,9 +36,30 @@ export class Document {
     };
   }
 
+  /**
+   * Set the default font for all text elements
+   * @param config pdfmills `FontConfig`
+   */
   font(config: FontConfig) {
     this.defaultFont = config;
     switchFont(this.doc, config);
+  }
+
+  /**
+   * Run the action with `config` font settings and reset
+   * once done
+   * @param config temporary font
+   * @param action action using font
+   */
+  withFont<T>(config: FontConfig, action: () => T): T {
+    if (config) {
+      switchFont(this.doc, config);
+      const value = action();
+      switchFont(this.doc, this.defaultFont);
+      return value;
+    } else {
+      return action();
+    }
   }
 
   /**

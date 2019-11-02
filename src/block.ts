@@ -1,4 +1,4 @@
-import { Origins, Dimensions } from './pdfkit.ext';
+import { Dimensions, Origins } from './pdfkit.ext';
 
 export class Block {
   private elements: BlockElement[] = [];
@@ -97,6 +97,7 @@ export class TextBlock implements BlockElement {
       width: dim.width,
       height: dim.height
     });
+
     return doc.heightOfString(this.text);
   }
 }
