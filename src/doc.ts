@@ -40,7 +40,7 @@ export class Document {
     factory(block);
 
     // update doc's trackers
-    const height = block.draws(this.doc, this.origins, this.dim);
+    const height = block.draw(this.doc, this.origins, this.dim);
     this.origins.y += height;
     this.dim.height -= height;
   }
