@@ -2,10 +2,10 @@ import { createWriteStream } from 'fs';
 
 /**
  * Save a pdf document.
- * @param pdfKit PDFKit instance
+ * @param doc PDFKit instance
  * @param path path to store the file
  */
-export function save(pdfKit: PDFKit.PDFDocument, path: string) {
-  pdfKit.pipe(createWriteStream(path));
-  pdfKit.end();
+export function save(doc: PDFKit.PDFDocument, path: string) {
+  doc.pipe(createWriteStream(path));
+  doc.end();
 }
