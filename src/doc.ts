@@ -53,9 +53,12 @@ export class Document {
    */
   withFont<T>(config: FontConfig, action: () => T): T {
     if (config) {
-      switchFont(this.doc, config);
+      const existing = this.defaultFont;
+      this.font(config);
+
       const value = action();
-      switchFont(this.doc, this.defaultFont);
+      this.font(existing);
+
       return value;
     } else {
       return action();
