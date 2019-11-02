@@ -1,6 +1,6 @@
 import PDFDocument from 'pdfkit';
 import { Block, BlockFactory } from './block';
-import { Dimensions, Origins } from './data';
+import { Dimensions, Origins } from './pdfkit.ext';
 import { CSSMargins, Margins, toEnglish } from './margin';
 
 const A4_WIDTH = 595;
