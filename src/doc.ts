@@ -1,4 +1,6 @@
 import PDFDocument from 'pdfkit';
+import { BlockFactory } from './block';
+import { Dimensions, Origins } from './data';
 import { CSSMargins, Margins, toEnglish } from './margin';
 
 export class Document {
@@ -25,18 +27,4 @@ export class Document {
   block(factory: BlockFactory) {
     factory(this.doc, this.origins, this.dim);
   }
-}
-
-export interface BlockFactory {
-  (pdfKit: PDFKit.PDFDocument, origins: Origins, dim: Dimensions): void;
-}
-
-export interface Dimensions {
-  width: number;
-  height: number;
-}
-
-export interface Origins {
-  x: number;
-  y: number;
 }
