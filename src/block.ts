@@ -21,6 +21,15 @@ export class Block {
   }
 
   /**
+   * Draw an image in a block. Note that the image will be left
+   * aligned and will be made to fit `width` and `height`
+   * @param src path to image
+   * @param width image width
+   * @param height image height
+   */
+  image(src: string, width: number, height: number) {}
+
+  /**
    * Draw a block while controlling the vertical origin so elements are
    * on new lines
    * @param doc PDFKit Document
@@ -87,6 +96,28 @@ export class TextBlock implements BlockElement {
       height: dim.height
     });
     return doc.heightOfString(this.text);
+  }
+}
+
+export class ImageBlock implements BlockElement {
+  constructor(
+    private src: string,
+    private width: number,
+    private height: number
+  ) {}
+
+  /**
+   * Draw `src` and return `height` as the height.
+   * The image will be made to fit `width` and `height`
+   * @param doc PDFKit Document
+   * @param origins x and y
+   * @param dim width and height
+   */
+  draw(doc: PDFKit.PDFDocument, origins: Origins, dim: Dimensions) {
+    doc.image(this.src, origins.x, origins.y, {
+      fit: [this.width, this.height]
+    });
+    return this.height;
   }
 }
 
