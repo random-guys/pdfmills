@@ -1,4 +1,4 @@
-import { Origins, Dimensions } from './data';
+import { Origins, Dimensions } from './pdfkit.ext';
 
 export class Block {
   private elements: BlockElement[] = [];
