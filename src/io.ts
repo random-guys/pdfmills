@@ -11,7 +11,7 @@ export function save(doc: PDFKit.PDFDocument, path: string) {
   doc.end();
 }
 
-export default function resolver(assetDir: string) {
+export function resolver(assetDir: string) {
   const root = path.resolve(__dirname, assetDir);
   return (file: string) => path.join(root, file);
 }
