@@ -1,16 +1,16 @@
 import PDFDocument from 'pdfkit';
-import { BlockFactory, Block } from './block';
+import { Block, BlockFactory } from './block';
 import { Dimensions, Origins } from './data';
 import { CSSMargins, Margins, toEnglish } from './margin';
+
+const A4_WIDTH = 595;
+const A4_HEIGHT = 842;
 
 export class Document {
   readonly doc: PDFKit.PDFDocument;
   readonly margins: Margins;
   private origins: Origins;
-  private dim: Dimensions = {
-    width: 595,
-    height: 842
-  };
+  private dim: Dimensions;
 
   /**
    * Create an A4 document
@@ -18,13 +18,20 @@ export class Document {
    */
   constructor(cssMargin: CSSMargins) {
     this.margins = toEnglish(cssMargin);
+
     this.doc = new PDFDocument({
       size: 'A4',
       margins: this.margins
     });
+
     this.origins = {
       x: this.margins.left,
       y: this.margins.top
+    };
+
+    this.dim = {
+      width: A4_WIDTH - (this.margins.left + this.margins.right),
+      height: A4_HEIGHT - (this.margins.top + this.margins.bottom)
     };
   }
 
