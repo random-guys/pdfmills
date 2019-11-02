@@ -27,7 +27,9 @@ export class Block {
    * @param width image width
    * @param height image height
    */
-  image(src: string, width: number, height: number) {}
+  image(src: string, width: number, height: number) {
+    this.elements.push(new ImageBlock(src, width, height));
+  }
 
   /**
    * Draw a block while controlling the vertical origin so elements are
