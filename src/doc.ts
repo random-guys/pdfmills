@@ -1,7 +1,7 @@
 import PDFDocument from 'pdfkit';
 import { Block, BlockFactory } from './block';
-import { Dimensions, Origins } from './pdfkit.ext';
 import { CSSMargins, Margins, toEnglish } from './margin';
+import { Dimensions, FontConfig, Origins, switchFont } from './pdfkit.ext';
 
 const A4_WIDTH = 595;
 const A4_HEIGHT = 842;
@@ -11,6 +11,7 @@ export class Document {
   readonly margins: Margins;
   private origins: Origins;
   private dim: Dimensions;
+  private defaultFont: FontConfig;
 
   /**
    * Create an A4 document
@@ -33,6 +34,11 @@ export class Document {
       width: A4_WIDTH - (this.margins.left + this.margins.right),
       height: A4_HEIGHT - (this.margins.top + this.margins.bottom)
     };
+  }
+
+  font(config: FontConfig) {
+    this.defaultFont = config;
+    switchFont(this.doc, config);
   }
 
   /**
