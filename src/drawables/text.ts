@@ -24,7 +24,6 @@ export class Text implements Element {
 
   draw(context: Context, box: BoundingBox): void {
     context.withFont(this.config, () => {
-      console.log(box);
       return context.raw.text(this.text, box.x, box.y, {
         width: box.width,
         height: box.height
