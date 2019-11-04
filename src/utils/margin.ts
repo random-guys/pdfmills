@@ -9,7 +9,8 @@ export interface Margins {
 }
 
 /**
- * Check out MDN for CSS margins
+ * Check out MDN for [CSS margins](https://developer.mozilla.org/en-US/docs/Web/CSS/margin). Note it
+ * only supports pixels(that should be obvious).
  */
 export type CSSMargins =
   | number
@@ -20,7 +21,7 @@ export type CSSMargins =
 /**
  * Convert CSS margin declaration to a margin object
  * that normal humans understand
- * @param cssMargins
+ * @param cssMargins CSS style margins
  */
 export function toEnglish(cssMargins?: CSSMargins) {
   if (!cssMargins) {

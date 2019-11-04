@@ -1,26 +1,10 @@
 /**
- * Either RGB or a single value x as RGB
+ * Either RGB or a single value x as all RGB values
  */
 export type ColorValue = [number, number, number] | number;
 
 /**
- * Width and Height
- */
-export interface Dimensions {
-  width: number;
-  height: number;
-}
-
-/**
- * X and Y position
- */
-export interface Origins {
-  x: number;
-  y: number;
-}
-
-/**
- * Configuration for a text object
+ * An object to bring together PDFKit's font settings
  */
 export interface FontConfig {
   font?: string;
