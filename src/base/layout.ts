@@ -1,6 +1,6 @@
-import { Context } from './context';
-import { BoundingBox } from './bounding-box';
-import { Element } from './element';
+import { Context } from "./context";
+import { BoundingBox } from "./bounding-box";
+import { Element } from "./element";
 
 /**
  * A layout is an element that can generate a list of

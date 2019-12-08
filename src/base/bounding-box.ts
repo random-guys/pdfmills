@@ -1,4 +1,4 @@
-import { Margins, toEnglish } from '../utils';
+import { Margins, toEnglish } from "../utils";
 
 export const A4_WIDTH = 595;
 export const A4_HEIGHT = 842;

@@ -1,5 +1,5 @@
-import { BoundingBox, Context, Drawable } from '../base';
-import { ColorValue, getRGB } from '../utils';
+import { BoundingBox, Context, Drawable } from "../base";
+import { ColorValue, getRGB } from "../utils";
 
 export class Background implements Drawable {
   constructor(private color: ColorValue) {}

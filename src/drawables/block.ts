@@ -1,48 +1,50 @@
-import { BoundingBox, Context, Element, Layout } from '../base';
-import sumBy = require('lodash/sumBy');
+import sumBy from "lodash/sumBy";
+import { BoundingBox, Context, Element, Layout } from "../base";
+import { Background } from "./background";
 
 /**
  * This arranges all it's element on a vertical line using the width
  * of its bounding box.
  */
 export class Block implements Layout {
-  constructor(private elements: Element[]) {
-    if (elements.length < 2) {
-      throw new Error("You don't need this layout");
-    }
-  }
+  /**
+   * Create a new block layout.
+   * @param elements list of elements to layout
+   */
+  constructor(private elements: Element[], private background?: Background) {}
 
-  width(context: Context, box: BoundingBox): number {
+  width(_context: Context, box: BoundingBox): number {
     return box.width;
   }
 
   height(context: Context, box: BoundingBox): number {
-    return this.elements.reduce((h, el) => {
-      return h + el.height(context, box);
-    }, 0);
+    return sumBy(this.elements, e => e.height(context, box));
   }
 
   draw(context: Context, box: BoundingBox): void {
-    const boxes = this.boxes(context, box);
+    const boxes = this.boxes(context, { ...box });
+
+    if (this.background) {
+      this.background.draw(context, box);
+    }
 
     this.elements.forEach((el, i) => {
       el.draw(context, boxes[i]);
     });
-
-    const fullHeight = sumBy(boxes, b => b.height);
-    context.reframe(0, fullHeight);
   }
 
   boxes(context: Context, box: BoundingBox): BoundingBox[] {
     const boxes: BoundingBox[] = [];
+    let y = box.y;
+    let remaningHeight = box.height;
 
     for (const el of this.elements) {
-      const height = el.height(context, box);
+      const height = el.height(context, { ...box, y, height: remaningHeight });
 
-      boxes.push({ ...box, height });
+      boxes.push({ ...box, y, height });
 
-      box.y += height;
-      box.height -= height;
+      y += height;
+      remaningHeight -= height;
     }
 
     return boxes;

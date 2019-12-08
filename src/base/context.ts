@@ -1,12 +1,12 @@
-import PDFDocument from 'pdfkit';
+import PDFDocument from "pdfkit";
 import {
   CSSMargins,
   FontConfig,
   Margins,
   switchFont,
   toEnglish
-} from '../utils';
-import { BoundingBox, pageBounds } from './bounding-box';
+} from "../utils";
+import { BoundingBox, pageBounds } from "./bounding-box";
 
 /**
  * This is a state manager for a PDFKit document. It helps us track the PDFKit
@@ -33,7 +33,7 @@ export class Context {
   constructor(margins: CSSMargins, config: FontConfig) {
     this.margins = toEnglish(margins);
     this.raw = new PDFDocument({
-      size: 'A4',
+      size: "A4",
       margins: this.margins
     });
 
@@ -72,9 +72,10 @@ export class Context {
    */
   withFont<T>(config: FontConfig, action: () => T): T {
     if (!config) {
+      switchFont(this.raw, this.defaultFont);
       return action();
     }
-    switchFont(this.raw, config);
+    switchFont(this.raw, { ...this.defaultFont, ...config });
     const result = action();
     switchFont(this.raw, this.defaultFont);
 
