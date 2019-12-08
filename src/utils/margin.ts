@@ -19,8 +19,7 @@ export type CSSMargins =
   | [number, number, number, number];
 
 /**
- * Convert CSS margin declaration to a margin object
- * that normal humans understand
+ * Convert CSS margin declaration to a margin object that normal humans understand
  * @param cssMargins CSS style margins
  */
 export function toEnglish(cssMargins?: CSSMargins) {
@@ -33,7 +32,7 @@ export function toEnglish(cssMargins?: CSSMargins) {
     };
   }
 
-  if (typeof cssMargins === 'number') {
+  if (typeof cssMargins === "number") {
     return {
       left: cssMargins,
       right: cssMargins,
@@ -64,6 +63,6 @@ export function toEnglish(cssMargins?: CSSMargins) {
         bottom: cssMargins[2]
       };
     default:
-      throw new Error('Learn CSS. And then read the docs');
+      throw new Error("Learn CSS. And then read the docs");
   }
 }

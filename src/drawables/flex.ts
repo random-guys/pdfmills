@@ -5,6 +5,11 @@ import { BoundingBox, Context, Element, Layout } from "../base";
  * Layout items horizontally with equal space between them
  */
 export class SpaceBetween implements Layout {
+  /**
+   * Create a new flex layout with space between strategy. Do ensure to
+   * use this with at least 2 child elements
+   * @param elements list of elements to layout
+   */
   constructor(private elements: Element[]) {
     if (elements.length < 2) {
       throw new Error("You don't need this layout");
@@ -74,11 +79,15 @@ export interface WeightedColumn {
 
 /**
  * `WeightedRow` is a layout that arranges it's elements horizontally, determining
- * their widths solely on the weights specified. For now it only works with integer
- * weights so I don't have to think of float issues. It is expected that the sum of
- * all the weights will be exactly 100
+ * their widths solely on the weights specified.
  */
 export class WeightedRow implements Layout {
+  /**
+   * Create a new weigthed row. For now it only works with integer
+   * weights so I don't have to think of float issues. It is expected that
+   * the sum of all the weights will be exactly 100
+   * @param columns list of element and weight pairings
+   */
   constructor(private columns: WeightedColumn[]) {
     if (columns.length < 1) {
       throw new Error("You don't need this layout");

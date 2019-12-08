@@ -6,13 +6,18 @@ import { BoundingBox, Context, Element, Layout } from "../base";
  * of its bounding box.
  */
 export class Block implements Layout {
+  /**
+   * Create a new block layout. Do ensure to use this with at
+   * least 2 child elements
+   * @param elements list of elements to layout
+   */
   constructor(private elements: Element[]) {
     if (elements.length < 2) {
       throw new Error("You don't need this layout");
     }
   }
 
-  width(context: Context, box: BoundingBox): number {
+  width(_context: Context, box: BoundingBox): number {
     return box.width;
   }
 
