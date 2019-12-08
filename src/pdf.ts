@@ -6,6 +6,7 @@ import {
   WeightedColumn,
   WeightedRow
 } from "./drawables";
+import { ColorValue } from "./utils";
 
 export function block(context: Context, elements: Element[]) {
   const block = new Block(elements);
@@ -25,8 +26,12 @@ export function weightedRow(context: Context, columns: WeightedColumn[]) {
   return row;
 }
 
-export function background(context: Context, box?: BoundingBox) {
-  const bg = new Background(251);
+export function background(
+  context: Context,
+  color: ColorValue,
+  box?: BoundingBox
+) {
+  const bg = new Background(color);
   bg.draw(context, box || pageBounds());
 
   return bg;

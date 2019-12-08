@@ -15,7 +15,7 @@ const context = new Context(54, {
   color: 33
 });
 
-background(context, {
+background(context, 251, {
   ...pageBounds(),
   height: 284
 });
