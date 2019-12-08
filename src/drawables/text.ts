@@ -24,7 +24,7 @@ export class Text implements Element {
 
   height(context: Context, box: BoundingBox): number {
     return context.withFont(this.config, () => {
-      return context.raw.widthOfString(this.text, {
+      return context.raw.heightOfString(this.text, {
         width: box.width,
         height: box.height
       });
