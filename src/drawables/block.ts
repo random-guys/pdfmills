@@ -35,14 +35,16 @@ export class Block implements Layout {
 
   boxes(context: Context, box: BoundingBox): BoundingBox[] {
     const boxes: BoundingBox[] = [];
+    let y = box.y;
+    let remaningHeight = box.height;
 
     for (const el of this.elements) {
-      const height = el.height(context, box);
+      const height = el.height(context, { ...box, y, height: remaningHeight });
 
-      boxes.push({ ...box, height });
+      boxes.push({ ...box, y, height });
 
-      box.y += height;
-      box.height -= height;
+      y += height;
+      remaningHeight -= height;
     }
 
     return boxes;

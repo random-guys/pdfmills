@@ -46,14 +46,14 @@ export class SpaceBetween implements Layout {
     const spacing =
       (box.width - actualLayoutWidth) / (this.elements.length - 1);
     const height = this.height(context, box);
+    let x = box.x;
 
     for (const el of this.elements) {
       const width = el.width(context, boundingBox);
 
-      boxes.push({ ...box, width, height });
+      boxes.push({ x, width, height, y: box.y });
 
-      box.x += width + spacing;
-      box.width -= width + spacing;
+      x += width + spacing;
     }
 
     return boxes;
