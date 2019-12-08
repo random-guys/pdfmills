@@ -100,7 +100,7 @@ export class WeightedRow implements Layout {
 
     const totalWeight = sumBy(columns, "weight");
     if (totalWeight != 100) {
-      throw new Error("Weights dont add up to 100");
+      throw new Error(`Weights dont add up to 100, got ${totalWeight}`);
     }
   }
 
