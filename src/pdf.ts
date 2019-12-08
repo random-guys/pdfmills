@@ -1,5 +1,11 @@
 import { BoundingBox, Context, Element, pageBounds } from "./base";
-import { Background, Block, SpaceBetween, WeightedColumn } from "./drawables";
+import {
+  Background,
+  Block,
+  SpaceBetween,
+  WeightedColumn,
+  WeightedRow
+} from "./drawables";
 
 export function block(context: Context, elements: Element[]) {
   const block = new Block(elements);
@@ -11,6 +17,12 @@ export function spaceBetween(context: Context, elements: Element[]) {
   const flex = new SpaceBetween(elements);
   flex.draw(context, context.bounds());
   return flex;
+}
+
+export function weightedRow(context: Context, columns: WeightedColumn[]) {
+  const row = new WeightedRow(columns);
+  row.draw(context, context.bounds());
+  return row;
 }
 
 export function background(context: Context, box?: BoundingBox) {
