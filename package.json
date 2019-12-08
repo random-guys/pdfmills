@@ -1,7 +1,7 @@
 {
-  "name": "@random-guys/sp-lib-starter",
+  "name": "@random-guys/pdfmills",
   "version": "0.1.0",
-  "description": "Wrapper around axios for interservice communication",
+  "description": "Wrapper around pdfkit",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -13,15 +13,15 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/random-guys/sp-lib-starter.git"
+    "url": "git+https://github.com/random-guys/pdfmills.git"
   },
   "bugs": {
-    "url": "https://github.com/random-guys/sp-lib-starter/issues"
+    "url": "https://github.com/random-guys/pdfmills/issues"
   },
   "files": [
     "dist/"
   ],
-  "homepage": "https://github.com/random-guys/sp-lib-starter#readme",
+  "homepage": "https://github.com/random-guys/pdfmills#readme",
   "devDependencies": {
     "@types/jest": "^24.0.14",
     "@types/lodash": "^4.14.144",
