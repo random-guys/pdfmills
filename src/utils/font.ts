@@ -1,7 +1,7 @@
 /**
- * Either RGB or a single value x as all RGB values
+ * Either a single value x as all RGB values or normal PDFKit color values
  */
-export type ColorValue = [number, number, number] | number;
+export type ColorValue = number | PDFKit.Mixins.ColorValue;
 
 /**
  * An object to bring together PDFKit's font settings
@@ -13,11 +13,11 @@ export interface FontConfig {
 }
 
 /**
- * Convert pdfmills `ColorValue` to RGB array
+ * Convert single digit color value to RGB
  * @param color pdfmills color
  */
-export function getRGB(color: ColorValue): [number, number, number] {
-  return Array.isArray(color) ? color : [color, color, color];
+export function getRGB(color: ColorValue): PDFKit.Mixins.ColorValue {
+  return typeof color === "number" ? [color, color, color] : color;
 }
 
 /**
