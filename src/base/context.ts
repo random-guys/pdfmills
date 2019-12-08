@@ -72,9 +72,10 @@ export class Context {
    */
   withFont<T>(config: FontConfig, action: () => T): T {
     if (!config) {
+      switchFont(this.raw, this.defaultFont);
       return action();
     }
-    switchFont(this.raw, config);
+    switchFont(this.raw, { ...this.defaultFont, ...config });
     const result = action();
     switchFont(this.raw, this.defaultFont);
 
