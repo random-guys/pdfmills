@@ -125,14 +125,14 @@ export class WeightedRow implements Layout {
   boxes(context: Context, box: BoundingBox): BoundingBox[] {
     const boxes: BoundingBox[] = [];
     const height = this.height(context, box);
+    let x = box.x;
 
     for (const col of this.columns) {
       const width = (col.weight / 100) * box.width;
 
-      boxes.push({ ...box, width, height });
+      boxes.push({ x, width, height, y: box.y });
 
-      box.x += width;
-      box.width -= width;
+      x += width;
     }
 
     return boxes;
