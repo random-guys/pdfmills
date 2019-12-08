@@ -1,5 +1,4 @@
 import { Layout, Context, BoundingBox, Element } from "../base";
-import maxBy from "lodash/maxBy";
 import sumBy from "lodash/sumBy";
 
 /**
@@ -51,6 +50,83 @@ export class SpaceBetween implements Layout {
 
       box.x += width + spacing;
       box.width -= width + spacing;
+    }
+
+    return boxes;
+  }
+}
+
+/**
+ * `WeightedColumn` is a wrapper around an element to store weight
+ * info for `WeightedRow`
+ */
+export interface WeightedColumn {
+  /**
+   * Percentage of width to be used by the element
+   */
+  weight: number;
+  /**
+   * Element being wrapped
+   */
+  element: Element;
+}
+
+/**
+ * `WeightedRow` is a layout that arranges it's elements horizontally, determining
+ * their widths solely on the weights specified. For now it only works with integer
+ * weights so I don't have to think of float issues. It is expected that the sum of
+ * all the weights will be exactly 100
+ */
+export class WeightedRow implements Layout {
+  constructor(private columns: WeightedColumn[]) {
+    if (columns.length < 1) {
+      throw new Error("You don't need this layout");
+    }
+
+    // for now we can't work with floats
+    this.columns.forEach(c => {
+      c.weight = Math.floor(c.weight);
+    });
+
+    const totalWeight = sumBy(columns, "weight");
+    if (totalWeight != 100) {
+      throw new Error("Weights dont add up to 100");
+    }
+  }
+
+  width(_context: Context, box: BoundingBox): number {
+    return box.width;
+  }
+
+  height(context: Context, box: BoundingBox): number {
+    const heights = this.columns.map(c => {
+      const width = (c.weight / 100) * box.width;
+      return c.element.height(context, { ...box, width });
+    });
+    return Math.max(...heights);
+  }
+
+  draw(context: Context, box: BoundingBox): void {
+    const boxes = this.boxes(context, box);
+
+    this.columns.forEach((c, i) => {
+      c.element.draw(context, boxes[i]);
+    });
+
+    context.reframe(0, boxes[0].height);
+  }
+
+  boxes(context: Context, box: BoundingBox): BoundingBox[] {
+    const boxes: BoundingBox[] = [];
+    const height = this.height(context, box);
+
+    for (const col of this.columns) {
+      const width = (col.weight / 100) * box.width;
+
+      boxes.push({ ...box, width, height });
+
+      box.x += width;
+      box.width -= width;
     }
 
     return boxes;
