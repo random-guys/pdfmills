@@ -47,24 +47,27 @@ block(context, [new LineBreak(70)]);
 weightedRow(context, [
   {
     weight: 60,
-    element: new Block(
-      [new Text("A(1,1)"), new LineBreak(10), new Text("A(1,2)")],
-      new Background(131)
-    )
+    element: new Block([
+      new Text("A(1,1)"),
+      new LineBreak(10),
+      new Text("A(1,2)")
+    ])
   },
   {
     weight: 20,
-    element: new Block(
-      [new Text("A(2,1)"), new LineBreak(10), new Text("A(2,2)")],
-      new Background(200)
-    )
+    element: new Block([
+      new Text("A(2,1)"),
+      new LineBreak(10),
+      new Text("A(2,2)")
+    ])
   },
   {
     weight: 20,
-    element: new Block(
-      [new Text("A(3,1)"), new LineBreak(10), new Text("A(3,2)")],
-      new Background(244)
-    )
+    element: new Block([
+      new Text("A(3,1)"),
+      new LineBreak(10),
+      new Text("A(3,2)")
+    ])
   }
 ]);
 
