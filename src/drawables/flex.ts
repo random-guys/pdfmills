@@ -1,5 +1,5 @@
-import { Layout, Context, BoundingBox, Element } from "../base";
 import sumBy from "lodash/sumBy";
+import { BoundingBox, Context, Element, Layout } from "../base";
 
 /**
  * Layout items horizontally with equal space between them
@@ -11,12 +11,13 @@ export class SpaceBetween implements Layout {
     }
   }
 
-  width(context: Context, box: BoundingBox): number {
+  width(_context: Context, box: BoundingBox): number {
     return box.width;
   }
 
   height(context: Context, box: BoundingBox): number {
     const width = box.width / this.elements.length;
+
     const heights = this.elements.map(e =>
       e.height(context, { ...box, width })
     );

@@ -1,5 +1,5 @@
-import { BoundingBox, Context, Element, Layout } from '../base';
-import sumBy = require('lodash/sumBy');
+import sumBy from "lodash/sumBy";
+import { BoundingBox, Context, Element, Layout } from "../base";
 
 /**
  * This arranges all it's element on a vertical line using the width
@@ -17,9 +17,7 @@ export class Block implements Layout {
   }
 
   height(context: Context, box: BoundingBox): number {
-    return this.elements.reduce((h, el) => {
-      return h + el.height(context, box);
-    }, 0);
+    return sumBy(this.elements, e => e.height(context, box));
   }
 
   draw(context: Context, box: BoundingBox): void {
@@ -29,8 +27,7 @@ export class Block implements Layout {
       el.draw(context, boxes[i]);
     });
 
-    const fullHeight = sumBy(boxes, b => b.height);
-    context.reframe(0, fullHeight);
+    context.reframe(0, sumBy(boxes, "height"));
   }
 
   boxes(context: Context, box: BoundingBox): BoundingBox[] {
