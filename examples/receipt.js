@@ -1,6 +1,12 @@
 var { Context, pageBounds } = require("../dist/base");
-var { Image, LineBreak, Text, Block } = require("../dist/drawables");
-var { background, block, spaceBetween } = require("../dist/pdf");
+var {
+  Image,
+  LineBreak,
+  Text,
+  Background,
+  Block
+} = require("../dist/drawables");
+var { background, block, spaceBetween, weightedRow } = require("../dist/pdf");
 var { save } = require("../dist/utils");
 var path = require("path");
 
@@ -34,6 +40,32 @@ spaceBetween(context, [
   new Block([new Text("A(1,1)"), new LineBreak(10), new Text("A(1,2)")]),
   new Block([new Text("A(2,1)"), new LineBreak(10), new Text("A(2,2)")]),
   new Block([new Text("A(3,1)"), new LineBreak(10), new Text("A(3,2)")])
+]);
+
+block(context, [new LineBreak(70)]);
+
+weightedRow(context, [
+  {
+    weight: 60,
+    element: new Block(
+      [new Text("A(1,1)"), new LineBreak(10), new Text("A(1,2)")],
+      new Background(131)
+    )
+  },
+  {
+    weight: 20,
+    element: new Block(
+      [new Text("A(2,1)"), new LineBreak(10), new Text("A(2,2)")],
+      new Background(200)
+    )
+  },
+  {
+    weight: 20,
+    element: new Block(
+      [new Text("A(3,1)"), new LineBreak(10), new Text("A(3,2)")],
+      new Background(244)
+    )
+  }
 ]);
 
 save(context.raw, "output.pdf");
