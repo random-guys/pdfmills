@@ -1,6 +1,6 @@
-import { Layout, Context, BoundingBox, Element } from '../base';
-import maxBy from 'lodash/maxBy';
-import sumBy from 'lodash/sumBy';
+import { Layout, Context, BoundingBox, Element } from "../base";
+import maxBy from "lodash/maxBy";
+import sumBy from "lodash/sumBy";
 
 /**
  * Layout items horizontally with equal space between them
@@ -36,15 +36,16 @@ export class SpaceBetween implements Layout {
 
   boxes(context: Context, box: BoundingBox): BoundingBox[] {
     const boxes: BoundingBox[] = [];
-    const equalBox = { ...box, width: box.width / this.elements.length };
-    const realLayoutWidth = sumBy(this.elements, e =>
-      e.width(context, equalBox)
+    const boundingBox = { ...box, width: box.width / this.elements.length };
+    const actualLayoutWidth = sumBy(this.elements, e =>
+      e.width(context, boundingBox)
     );
-    const spacing = (box.width - realLayoutWidth) / (this.elements.length - 1);
+    const spacing =
+      (box.width - actualLayoutWidth) / (this.elements.length - 1);
     const height = this.height(context, box);
 
     for (const el of this.elements) {
-      const width = el.width(context, equalBox);
+      const width = el.width(context, boundingBox);
 
       boxes.push({ ...box, width, height });
 
