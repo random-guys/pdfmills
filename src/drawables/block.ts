@@ -31,8 +31,6 @@ export class Block implements Layout {
     this.elements.forEach((el, i) => {
       el.draw(context, boxes[i]);
     });
-
-    context.reframe(0, sumBy(boxes, "height"));
   }
 
   boxes(context: Context, box: BoundingBox): BoundingBox[] {

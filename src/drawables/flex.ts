@@ -35,8 +35,6 @@ export class SpaceBetween implements Layout {
     this.elements.forEach((el, i) => {
       el.draw(context, boxes[i]);
     });
-
-    context.reframe(0, boxes[0].height);
   }
 
   boxes(context: Context, box: BoundingBox): BoundingBox[] {
@@ -122,8 +120,6 @@ export class WeightedRow implements Layout {
     this.columns.forEach((c, i) => {
       c.element.draw(context, boxes[i]);
     });
-
-    context.reframe(0, boxes[0].height);
   }
 
   boxes(context: Context, box: BoundingBox): BoundingBox[] {
