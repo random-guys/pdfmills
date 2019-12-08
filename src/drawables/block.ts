@@ -1,5 +1,6 @@
 import sumBy from "lodash/sumBy";
 import { BoundingBox, Context, Element, Layout } from "../base";
+import { Background } from "./background";
 
 /**
  * This arranges all it's element on a vertical line using the width
@@ -7,15 +8,10 @@ import { BoundingBox, Context, Element, Layout } from "../base";
  */
 export class Block implements Layout {
   /**
-   * Create a new block layout. Do ensure to use this with at
-   * least 2 child elements
+   * Create a new block layout.
    * @param elements list of elements to layout
    */
-  constructor(private elements: Element[]) {
-    if (elements.length < 2) {
-      throw new Error("You don't need this layout");
-    }
-  }
+  constructor(private elements: Element[], private background?: Background) {}
 
   width(_context: Context, box: BoundingBox): number {
     return box.width;
@@ -26,7 +22,11 @@ export class Block implements Layout {
   }
 
   draw(context: Context, box: BoundingBox): void {
-    const boxes = this.boxes(context, box);
+    const boxes = this.boxes(context, { ...box });
+
+    if (this.background) {
+      this.background.draw(context, box);
+    }
 
     this.elements.forEach((el, i) => {
       el.draw(context, boxes[i]);
