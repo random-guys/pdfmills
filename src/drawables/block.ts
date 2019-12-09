@@ -11,7 +11,7 @@ export class Block implements Layout {
    * Create a new block layout.
    * @param elements list of elements to layout
    */
-  constructor(private elements: Element[], private background?: Background) {}
+  constructor(private elements: Element[]) {}
 
   width(_context: Context, box: BoundingBox): number {
     return box.width;
@@ -23,10 +23,6 @@ export class Block implements Layout {
 
   draw(context: Context, box: BoundingBox): void {
     const boxes = this.boxes(context, { ...box });
-
-    if (this.background) {
-      this.background.draw(context, box);
-    }
 
     this.elements.forEach((el, i) => {
       el.draw(context, boxes[i]);
