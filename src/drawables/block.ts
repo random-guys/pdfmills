@@ -7,6 +7,8 @@ import { Background } from "./background";
  * of its bounding box.
  */
 export class Block implements Layout {
+  canSplit = true;
+
   /**
    * Create a new block layout.
    * @param elements list of elements to layout

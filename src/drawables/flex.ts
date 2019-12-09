@@ -5,6 +5,8 @@ import { BoundingBox, Context, Element, Layout } from "../base";
  * Layout items horizontally with equal space between them
  */
 export class SpaceBetween implements Layout {
+  canSplit = false;
+
   /**
    * Create a new flex layout with space between strategy. Do ensure to
    * use this with at least 2 child elements
@@ -80,6 +82,8 @@ export interface WeightedColumn {
  * their widths solely on the weights specified.
  */
 export class WeightedRow implements Layout {
+  canSplit = false;
+
   /**
    * Create a new weigthed row. For now it only works with integer
    * weights so I don't have to think of float issues. It is expected that
