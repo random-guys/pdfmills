@@ -52,6 +52,14 @@ export class Context {
   }
 
   /**
+   * `pageBounds` is the equivalent of `pageBounds` from `bounding-box.ts`, taking
+   * into account the document margins
+   */
+  pageBounds() {
+    return pageBounds(this.margins);
+  }
+
+  /**
    * Move the bounding box by the left and top bar.
    * @param deltaX movement of the left bound
    * @param deltaY movement of the right bound
