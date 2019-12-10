@@ -1,7 +1,7 @@
 import PDFDocument from "pdfkit";
 import {
   CSSMargins,
-  FontConfig,
+  FontStyle,
   Margins,
   switchFont,
   toEnglish
@@ -23,14 +23,14 @@ export class Context {
   readonly margins: Margins;
 
   private box: BoundingBox;
-  private defaultFont: FontConfig;
+  private defaultFont: FontStyle;
 
   /**
    * Create a new context for managing a document
    * @param margins CSS style margins
    * @param config default font configuration
    */
-  constructor(margins: CSSMargins, config: FontConfig) {
+  constructor(margins: CSSMargins, config: FontStyle) {
     this.margins = toEnglish(margins);
     this.raw = new PDFDocument({
       size: "A4",
@@ -78,7 +78,7 @@ export class Context {
    * @param config pdfmills `FontConfig`
    * @param action action to use `config`
    */
-  withFont<T>(config: FontConfig, action: () => T): T {
+  withFont<T>(config: FontStyle, action: () => T): T {
     if (!config) {
       switchFont(this.raw, this.defaultFont);
       return action();

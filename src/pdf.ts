@@ -1,11 +1,6 @@
+import { Background } from "./background";
 import { BoundingBox, Context, Element, pageBounds } from "./base";
-import {
-  Background,
-  Block,
-  SpaceBetween,
-  WeightedColumn,
-  WeightedRow
-} from "./drawables";
+import { Block, SpaceBetween, WeightedColumn, WeightedRow } from "./layouts";
 import { ColorValue } from "./utils";
 
 /**

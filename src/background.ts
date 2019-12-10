@@ -1,5 +1,5 @@
-import { BoundingBox, Context, Drawable, Element } from "../base";
-import { ColorValue, getRGB } from "../utils";
+import { BoundingBox, Context, Drawable, Element } from "./base";
+import { ColorValue, getRGB } from "./utils";
 
 /**
  * `Background` is used to draw a background color over any

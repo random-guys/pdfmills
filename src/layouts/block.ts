@@ -1,6 +1,5 @@
 import sumBy from "lodash/sumBy";
 import { BoundingBox, Context, Element, Layout } from "../base";
-import { Background } from "./background";
 
 /**
  * This arranges all it's element on a vertical line using the width
