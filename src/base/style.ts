@@ -10,14 +10,7 @@ export interface DocumentStyle extends FontStyle {
    */
   margin?: CSSMargins;
   /**
-   * background is any drawable to be drawn before actual page elements
-   */
-  background?: Drawable;
-}
-
-export interface TextStyle extends FontStyle {
-  /**
-   * background is any drawable to be drawn before drawing the text
+   * Use this to draw on each page before the elements are added
    */
   background?: Drawable;
 }

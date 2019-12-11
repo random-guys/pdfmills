@@ -65,6 +65,6 @@ export class Block implements Layout {
  * @param style background and margin for the block
  * @param elements list of elements to layout
  */
-export function div(style: BlockStyle, elements: Element[]) {
+export function div(style: BlockStyle, ...elements: Element[]) {
   return new Block(style, elements);
 }

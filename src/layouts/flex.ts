@@ -85,7 +85,17 @@ export class Flex implements Layout {
   }
 }
 
+/**
+ * This is a wrapper around element to allow configuration for flex
+ * and interprete it for the calculation of width and height
+ */
 export class FlexItem implements Element {
+  /**
+   * Creates a new element with flex specific configuration
+   * @param flexFloat how to allocate space at the sides of this element
+   * @param flexWidth how to allocate extra width to this item
+   * @param element element being wrapped
+   */
   constructor(
     readonly flexFloat: FlexFloat = "none",
     readonly flexWidth: FlexWidth = "auto",
@@ -108,4 +118,26 @@ export class FlexItem implements Element {
   draw(context: Context, box: BoundingBox): void {
     return this.element.draw(context, box);
   }
+}
+
+/**
+ * Factory function for creating a new flex layout.
+ * @param style background and margin for the row
+ * @param elements list of elements to layout with their flex configuration
+ */
+export function row(style: FlexStyle, ...elements: FlexItem[]) {
+  return new Flex(style, elements);
+}
+
+/**
+ * Factory function for creating a new flex item.
+ * @param style flex configuration of the itme
+ * @param element element being wrapped
+ */
+export function col(
+  float: FlexFloat = "none",
+  width: FlexWidth = "auto",
+  element: Element
+) {
+  return new FlexItem(float, width, element);
 }
