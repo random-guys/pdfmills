@@ -1,4 +1,5 @@
-import { BoundingBox, Context, Element, TextStyle } from "../base";
+import { BoundingBox, Context, Element } from "../base";
+import { FontStyle } from "../utils";
 
 /**
  * `Paragraph` is essentially a paragraph.
@@ -10,7 +11,7 @@ export class Paragraph implements Element {
    * @param style font and color to use. Note that the font and font
    * size affect the `real` width and height of the text element
    */
-  constructor(private text: string, private style?: TextStyle) {}
+  constructor(private text: string, private style?: FontStyle) {}
 
   width(context: Context, box: BoundingBox): number {
     return context.withFont(this.style, () => {
@@ -46,6 +47,6 @@ export class Paragraph implements Element {
  * @param style font and color to use. Note that the font and font
  * size affect the `real` width and height of the text element
  */
-export function p(text: string, style?: TextStyle) {
+export function p(text: string, style?: FontStyle) {
   return new Paragraph(text, style);
 }
