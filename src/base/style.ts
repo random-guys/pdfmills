@@ -52,7 +52,7 @@ export interface BlockStyle {
   background?: Drawable;
 }
 
-export interface FlexLayout {
+export interface FlexStyle {
   display: "flex";
   /**
    * Margins for this layout if any
