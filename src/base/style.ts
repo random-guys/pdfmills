@@ -62,8 +62,13 @@ export interface FlexStyle {
    * Background for this layout if any
    */
   background?: Drawable;
-  /**
-   * How should flex distribute the elements and the spaces inbetween them
-   */
-  strategy?: "auto";
 }
+
+/**
+ * How should each item use space around it
+ */
+export type FlexFloat = "left" | "right" | "none";
+/**
+ * What width should an item be
+ */
+export type FlexWidth = "flex" | "auto" | number;

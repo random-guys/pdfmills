@@ -1,144 +1,111 @@
-import sumBy from "lodash/sumBy";
-import { BoundingBox, Context, Element, Layout } from "../base";
+import {
+  BoundingBox,
+  Context,
+  Element,
+  FlexFloat,
+  FlexStyle,
+  FlexWidth,
+  Layout,
+  removeMargins
+} from "../base";
 
-/**
- * Layout items horizontally with equal space between them
- */
-export class SpaceBetween implements Layout {
-  canSplit = false;
+export class Flex implements Layout {
+  constructor(private style: FlexStyle, private items: FlexItem[]) {}
 
-  /**
-   * Create a new flex layout with space between strategy. Do ensure to
-   * use this with at least 2 child elements
-   * @param elements list of elements to layout
-   */
-  constructor(private elements: Element[]) {
-    if (elements.length < 2) {
-      throw new Error("You don't need this layout");
-    }
-  }
-
-  width(_context: Context, box: BoundingBox): number {
+  width(_context: Context, box: BoundingBox) {
     return box.width;
   }
 
-  height(context: Context, box: BoundingBox): number {
-    const width = box.width / this.elements.length;
-
-    const heights = this.elements.map(e =>
-      e.height(context, { ...box, width })
-    );
-    return Math.max(...heights);
+  height(context: Context, box: BoundingBox) {
+    return Math.max(...this.items.map(i => i.height(context, box)));
   }
 
-  draw(context: Context, box: BoundingBox): void {
-    const boxes = this.boxes(context, box);
+  draw(context: Context, box: BoundingBox) {
+    const boxes = this.boxes(context, { ...box });
 
-    this.elements.forEach((el, i) => {
-      el.draw(context, boxes[i]);
+    if (this.style.background) {
+      this.style.background.draw(context, box);
+    }
+
+    this.items.forEach((i, c) => {
+      i.draw(context, boxes[c]);
     });
   }
 
-  boxes(context: Context, box: BoundingBox): BoundingBox[] {
+  boxes(context: Context, box: BoundingBox) {
+    box = removeMargins(box, this.style.margin);
+
+    let originalWidth = 0;
+
+    let flexedItemCount = 0;
+    let floatItemCount = 0;
+
+    let flexSpace = 0;
+    let floatSpace = 0;
+
+    this.items.forEach(i => {
+      originalWidth += i.width(context, box);
+
+      if (i.flexWidth === "flex") {
+        flexedItemCount++;
+      } else if (i.flexFloat !== "none") {
+        floatItemCount++;
+      }
+    });
+
+    const remainingSpace = box.width - originalWidth;
+
+    if (flexedItemCount > 0) {
+      flexSpace = remainingSpace / flexedItemCount;
+    } else {
+      floatSpace = remainingSpace / floatItemCount;
+    }
+
     const boxes: BoundingBox[] = [];
-    const boundingBox = { ...box, width: box.width / this.elements.length };
-    const actualLayoutWidth = sumBy(this.elements, e =>
-      e.width(context, boundingBox)
-    );
-    const spacing =
-      (box.width - actualLayoutWidth) / (this.elements.length - 1);
     const height = this.height(context, box);
+    const y = box.y;
+
     let x = box.x;
 
-    for (const el of this.elements) {
-      const width = el.width(context, boundingBox);
+    for (const i of this.items) {
+      const width =
+        i.flexWidth === "flex"
+          ? i.width(context, box) + flexSpace
+          : i.width(context, box);
+      if (i.flexFloat === "left") {
+        x += floatSpace;
+      }
 
-      boxes.push({ x, width, height, y: box.y });
+      boxes.push({ x, y, width, height });
 
-      x += width + spacing;
+      x += width + (i.flexFloat === "right" ? floatSpace : 0);
     }
 
     return boxes;
   }
 }
 
-/**
- * `WeightedColumn` is a wrapper around an element to store weight
- * info for `WeightedRow`
- */
-export interface WeightedColumn {
-  /**
-   * Percentage of width to be used by the element
-   */
-  weight: number;
-  /**
-   * Element being wrapped
-   */
-  element: Element;
-}
+export class FlexItem implements Element {
+  constructor(
+    readonly flexFloat: FlexFloat = "none",
+    readonly flexWidth: FlexWidth = "auto",
+    private element: Element
+  ) {}
 
-/**
- * `WeightedRow` is a layout that arranges it's elements horizontally, determining
- * their widths solely on the weights specified.
- */
-export class WeightedRow implements Layout {
-  canSplit = false;
-
-  /**
-   * Create a new weigthed row. For now it only works with integer
-   * weights so I don't have to think of float issues. It is expected that
-   * the sum of all the weights will be exactly 100
-   * @param columns list of element and weight pairings
-   */
-  constructor(private columns: WeightedColumn[]) {
-    if (columns.length < 1) {
-      throw new Error("You don't need this layout");
+  width(context: Context, box: BoundingBox): number {
+    if (typeof this.flexWidth === "number") {
+      return this.element.width(context, { ...box, width: this.flexWidth });
     }
-
-    // for now we can't work with floats
-    this.columns.forEach(c => {
-      c.weight = Math.floor(c.weight);
-    });
-
-    const totalWeight = sumBy(columns, "weight");
-    if (totalWeight != 100) {
-      throw new Error(`Weights dont add up to 100, got ${totalWeight}`);
-    }
-  }
-
-  width(_context: Context, box: BoundingBox): number {
-    return box.width;
+    return this.element.width(context, box);
   }
 
   height(context: Context, box: BoundingBox): number {
-    const heights = this.columns.map(c => {
-      const width = (c.weight / 100) * box.width;
-      return c.element.height(context, { ...box, width });
-    });
-    return Math.max(...heights);
+    // I do this mainly for paragraphs...as the width determines the height
+    const width = this.width(context, box);
+    return this.element.height(context, { ...box, width });
   }
 
   draw(context: Context, box: BoundingBox): void {
-    const boxes = this.boxes(context, box);
-
-    this.columns.forEach((c, i) => {
-      c.element.draw(context, boxes[i]);
-    });
-  }
-
-  boxes(context: Context, box: BoundingBox): BoundingBox[] {
-    const boxes: BoundingBox[] = [];
-    const height = this.height(context, box);
-    let x = box.x;
-
-    for (const col of this.columns) {
-      const width = (col.weight / 100) * box.width;
-
-      boxes.push({ x, width, height, y: box.y });
-
-      x += width;
-    }
-
-    return boxes;
+    return this.element.draw(context, box);
   }
 }
