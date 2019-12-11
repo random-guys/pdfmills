@@ -8,11 +8,6 @@ import { Element } from "./element";
  */
 export interface Layout extends Element {
   /**
-   * `canSplit` indicates whether a layout can have its elements over
-   * multiple pages.
-   */
-  readonly canSplit: boolean;
-  /**
    * Calculate bounding boxes for all its elements
    * @param context source of document state
    * @param box boundaries of the layout
