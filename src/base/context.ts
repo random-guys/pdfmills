@@ -59,6 +59,10 @@ export class Context {
     return pageBounds(this.margins);
   }
 
+  addPage() {
+    this.raw.addPage({ size: "A4", margins: this.margins });
+  }
+
   /**
    * Move the bounding box by the left and top bar.
    * @param deltaX movement of the left bound
