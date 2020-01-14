@@ -7,6 +7,7 @@ export type ColorValue = number | PDFKit.Mixins.ColorValue;
  * An object to bring together PDFKit's font settings
  */
 export interface FontStyle {
+  align?: "center" | "justify" | "left" | "right";
   fontFamily?: string;
   fontSize?: number;
   color?: ColorValue;
