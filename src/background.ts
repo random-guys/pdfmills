@@ -1,4 +1,4 @@
-import { BoundingBox, Context, Drawable, Element } from "./base";
+import { BoundingBox, Context, Drawable, Element, Layout } from "./base";
 import { ColorValue, getRGB } from "./utils";
 
 /**
@@ -20,6 +20,15 @@ export class Background implements Drawable {
 }
 
 /**
+ *
+ * @param color the background color
+ */
+export function bg(color: ColorValue, element?: Element) {
+  if (element) return new ElementBackground(color, element);
+  else return new Background(color);
+}
+
+/**
  * `ElementBackground` is basically a background drawn into the bounding
  * box of any element.
  */
@@ -27,11 +36,13 @@ export class ElementBackground implements Element {
   constructor(private color: ColorValue, private element: Element) {}
 
   width(_context: Context, box: BoundingBox): number {
-    return box.width;
+    return this.element.width(_context, box);
   }
+
   height(_context: Context, box: BoundingBox): number {
-    return box.height;
+    return this.element.height(_context, box);
   }
+
   draw(context: Context, box: BoundingBox): void {
     context.raw
       .rect(box.x, box.y, box.width, box.height)
