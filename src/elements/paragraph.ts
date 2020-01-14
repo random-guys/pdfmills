@@ -32,11 +32,18 @@ export class Paragraph implements Element {
   }
 
   draw(context: Context, box: BoundingBox): void {
+    const textAlignment =
+      this.style === undefined || this.style.align === undefined
+        ? "left"
+        : this.style.align;
+
+    const textOptions = {
+      width: box.width,
+      height: box.height,
+      align: textAlignment
+    };
     context.withFont(this.style, () => {
-      return context.raw.text(this.text, box.x, box.y, {
-        width: box.width,
-        height: box.height
-      });
+      return context.raw.text(this.text, box.x, box.y, textOptions);
     });
   }
 }
