@@ -4,9 +4,11 @@ import {
   FontStyle,
   Margins,
   switchFont,
-  toEnglish
+  toEnglish,
+  getRGB,
+  ColorValue
 } from "../utils";
-import { BoundingBox, pageBounds } from "./bounding-box";
+import { pageBounds } from "./bounding-box";
 
 /**
  * This is a state manager for a PDFKit document. It helps us track the PDFKit
@@ -21,59 +23,35 @@ export class Context {
    * Established margins for the document
    */
   readonly margins: Margins;
-
-  private box: BoundingBox;
   private defaultFont: FontStyle;
+  private backgoundColor: ColorValue;
 
   /**
    * Create a new context for managing a document
    * @param margins CSS style margins
    * @param config default font configuration
    */
-  constructor(margins: CSSMargins, config: FontStyle) {
-    this.margins = toEnglish(margins);
-    this.raw = new PDFDocument({
-      size: "A4",
-      margins: this.margins
-    });
+  constructor(params: ContextParams) {
+    this.margins = toEnglish(params.margins);
+    this.raw = new PDFDocument({ size: "A4", margins: this.margins });
 
-    this.box = pageBounds(this.margins);
+    // set the background color of the page
+    this.backgoundColor = params.backgroundColor || "white";
+    this.setBackground(this.backgoundColor);
 
-    switchFont(this.raw, config);
-    this.defaultFont = config;
+    switchFont(this.raw, params.fontStyle);
+    this.defaultFont = params.fontStyle;
   }
 
-  /**
-   * Returns the bounding box of the document where no `Element` has
-   * been `drawn`
-   */
-  bounds() {
-    return { ...this.box };
-  }
-
-  /**
-   * `pageBounds` is the equivalent of `pageBounds` from `bounding-box.ts`, taking
-   * into account the document margins
-   */
-  pageBounds() {
-    return pageBounds(this.margins);
+  // use this to set a watermark or a background color of the page
+  setBackground(color: ColorValue) {
+    const box = pageBounds(this.margins);
+    this.raw.rect(box.x, box.y, box.width, box.height).fill(getRGB(color));
   }
 
   addPage() {
     this.raw.addPage({ size: "A4", margins: this.margins });
-  }
-
-  /**
-   * Move the bounding box by the left and top bar.
-   * @param deltaX movement of the left bound
-   * @param deltaY movement of the right bound
-   */
-  reframe(deltaX: number, deltaY: number) {
-    this.box.x += deltaX;
-    this.box.width -= deltaX;
-
-    this.box.y += deltaY;
-    this.box.height -= deltaY;
+    this.setBackground(this.backgoundColor);
   }
 
   /**
@@ -93,4 +71,13 @@ export class Context {
 
     return result;
   }
+}
+
+/**
+ * DTO for initializing a Cotent
+ */
+export interface ContextParams {
+  backgroundColor: ColorValue;
+  fontStyle: FontStyle;
+  margins: CSSMargins;
 }
