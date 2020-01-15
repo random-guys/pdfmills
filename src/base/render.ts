@@ -17,11 +17,6 @@ export class Renderer {
     let remaningHeight = this.box.height;
 
     for (const el of elements) {
-      if (typeof el.height !== "function") {
-        boxes.push({ ...this.box });
-        continue;
-      }
-
       const height = el.height(this.context, {
         x: this.box.x,
         y,
@@ -44,11 +39,7 @@ export class Renderer {
     }
 
     elements.forEach((el, i) => {
-      // check if there's enough space to draw the element
-      // if there's space draw it, if there isn't add a new page.
-      if (typeof el.height === "function") {
-        this.reframe(0, boxes[i].height);
-      }
+      this.reframe(0, boxes[i].height);
 
       // draw the element
       el.draw(this.context, boxes[i]);
