@@ -4,7 +4,6 @@ import {
   Element,
   FlexFloat,
   FlexStyle,
-  FlexWidth,
   Layout,
   removeMargins
 } from "../base";
@@ -39,11 +38,15 @@ export class Flex implements Layout {
     let floatItemCount = 0;
     let floatSpace = 0;
 
+    // check which margins the item has.
     this.items.forEach(i => {
       originalWidth += i.width(context, box);
-      if (i.flexFloat !== "none") {
-        floatItemCount++;
-      }
+
+      // this item has a left margin
+      if (i.flexFloat.includes("left")) floatItemCount++;
+
+      // this item has a right margin
+      if (i.flexFloat.includes("right")) floatItemCount++;
     });
 
     const remainingSpace = box.width - originalWidth;
@@ -57,13 +60,18 @@ export class Flex implements Layout {
 
     for (const i of this.items) {
       const width = i.width(context, box);
-      if (i.flexFloat === "left") {
-        x += floatSpace;
-      }
 
+      // move the box to the left of the FloatSpace
+      if (i.flexFloat.includes("left")) x += floatSpace;
+
+      // this is where we are drawing the item
       boxes.push({ x, y, width, height });
 
-      x += width + (i.flexFloat === "right" ? floatSpace : 0);
+      // offset the cursor by the item width
+      x += width;
+
+      // move the box to the right with half the FloatSpace
+      if (i.flexFloat.includes("right")) x += floatSpace;
     }
 
     return boxes;
@@ -82,7 +90,7 @@ export class FlexItem implements Element {
    * @param element element being wrapped
    */
   constructor(
-    readonly flexFloat: FlexFloat = "none",
+    readonly flexFloat: FlexFloat[] = ["none"],
     private element: Element
   ) {}
 
@@ -115,6 +123,6 @@ export function row(style: FlexStyle, ...elements: FlexItem[]) {
  * @param style flex configuration of the itme
  * @param element element being wrapped
  */
-export function col(float: FlexFloat = "none", element: Element) {
+export function col(float: FlexFloat[] = ["none"], element: Element) {
   return new FlexItem(float, element);
 }
