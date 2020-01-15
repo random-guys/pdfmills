@@ -11,7 +11,10 @@ export class Paragraph implements Element {
    * @param style font and color to use. Note that the font and font
    * size affect the `real` width and height of the text element
    */
-  constructor(private text: string, private style?: FontStyle) {}
+  constructor(
+    private text: string,
+    private style: FontStyle = { align: "left" }
+  ) {}
 
   width(context: Context, box: BoundingBox): number {
     return context.withFont(this.style, () => {
@@ -32,15 +35,10 @@ export class Paragraph implements Element {
   }
 
   draw(context: Context, box: BoundingBox): void {
-    const textAlignment =
-      this.style === undefined || this.style.align === undefined
-        ? "left"
-        : this.style.align;
-
     const textOptions = {
       width: box.width,
       height: box.height,
-      align: textAlignment
+      align: this.style.align
     };
     context.withFont(this.style, () => {
       return context.raw.text(this.text, box.x, box.y, textOptions);
