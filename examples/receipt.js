@@ -17,7 +17,7 @@ const context = new Context({
   backgroundColor: 231
 });
 
-const style = {
+const divStyle = {
   display: "block",
   margin: 1
 };
@@ -103,24 +103,12 @@ const elements = [
     p(faker.lorem.sentences(10)),
     br(10),
     p(faker.lorem.paragraph(10)),
-    br(10)
-  )
-  // div(style, br(70))
-  // div(
-  //   style,
-  //   {
-  //     weight: 60,
-  //     element: div(style, p("A(1,1)"), br(10), p("A(1,2)"))
-  //   },
-  //   {
-  //     weight: 20,
-  //     element: div(style, p("A(2,1)"), br(10), p("A(2,2)"))
-  //   },
-  //   {
-  //     weight: 20,
-  //     element: div(style, p("A(3,1)"), br(10), p("A(3,2)"))
-  //   }
-  // )
+    br(10),
+  row(
+    flexStyle,
+    col(["left", "right"], bg("black", p("1", fontStyle))),
+    col(["left", "right"], bg("black", p("2", fontStyle))),
+    col(["left", "right"], bg("black", p("3", fontStyle)))
 ];
 
 // const elements = [];
