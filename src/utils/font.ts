@@ -8,9 +8,9 @@ export type ColorValue = number | PDFKit.Mixins.ColorValue;
  */
 export interface FontStyle {
   align?: "center" | "justify" | "left" | "right";
-  fontFamily?: string;
   fontSize?: number;
-  color?: ColorValue;
+  fontFamily?: string;
+  fontColor?: ColorValue;
 }
 
 /**
@@ -29,5 +29,5 @@ export function getRGB(color: ColorValue): PDFKit.Mixins.ColorValue {
 export function switchFont(doc: PDFKit.PDFDocument, config: FontStyle) {
   if (config.fontFamily) doc.font(config.fontFamily);
   if (config.fontSize) doc.fontSize(config.fontSize);
-  if (config.color) doc.fillColor(getRGB(config.color));
+  if (config.fontColor) doc.fillColor(getRGB(config.fontColor));
 }
