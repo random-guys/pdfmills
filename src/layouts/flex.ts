@@ -36,30 +36,18 @@ export class Flex implements Layout {
     box = removeMargins(box, this.style.margin);
 
     let originalWidth = 0;
-
-    let flexedItemCount = 0;
     let floatItemCount = 0;
-
-    let flexSpace = 0;
     let floatSpace = 0;
 
     this.items.forEach(i => {
       originalWidth += i.width(context, box);
-
-      if (i.flexWidth === "flex") {
-        flexedItemCount++;
-      } else if (i.flexFloat !== "none") {
+      if (i.flexFloat !== "none") {
         floatItemCount++;
       }
     });
 
     const remainingSpace = box.width - originalWidth;
-
-    if (flexedItemCount > 0) {
-      flexSpace = remainingSpace / flexedItemCount;
-    } else {
-      floatSpace = remainingSpace / floatItemCount;
-    }
+    floatSpace = remainingSpace / floatItemCount;
 
     const boxes: BoundingBox[] = [];
     const height = this.height(context, box);
@@ -68,10 +56,7 @@ export class Flex implements Layout {
     let x = box.x;
 
     for (const i of this.items) {
-      const width =
-        i.flexWidth === "flex"
-          ? i.width(context, box) + flexSpace
-          : i.width(context, box);
+      const width = i.width(context, box);
       if (i.flexFloat === "left") {
         x += floatSpace;
       }
@@ -98,14 +83,10 @@ export class FlexItem implements Element {
    */
   constructor(
     readonly flexFloat: FlexFloat = "none",
-    readonly flexWidth: FlexWidth = "auto",
     private element: Element
   ) {}
 
   width(context: Context, box: BoundingBox): number {
-    if (typeof this.flexWidth === "number") {
-      return this.element.width(context, { ...box, width: this.flexWidth });
-    }
     return this.element.width(context, box);
   }
 
@@ -134,10 +115,6 @@ export function row(style: FlexStyle, ...elements: FlexItem[]) {
  * @param style flex configuration of the itme
  * @param element element being wrapped
  */
-export function col(
-  float: FlexFloat = "none",
-  width: FlexWidth = "auto",
-  element: Element
-) {
-  return new FlexItem(float, width, element);
+export function col(float: FlexFloat = "none", element: Element) {
+  return new FlexItem(float, element);
 }

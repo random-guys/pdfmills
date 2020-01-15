@@ -1,4 +1,15 @@
-const { bg, div, p, img, br, save, Context, render } = require("../dist");
+const {
+  bg,
+  div,
+  p,
+  img,
+  br,
+  row,
+  col,
+  save,
+  Context,
+  render
+} = require("../dist");
 const { join } = require("path");
 const faker = require("faker");
 
@@ -18,71 +29,22 @@ const style = {
   margin: 1
 };
 
-// const elements = [
-//   bg([251, 251, 251]),
-//   div(
-//     style,
-//     bg(
-//       [0, 0, 0, 64],
-//       p("Transaction Statement", {
-//         font: openSansSemibold,
-//         color: "white",
-//         fontSize: 22,
-//         align: "center"
-//       })
-//     ),
-//     br(46)
-//   ),
-//   div(
-//     style,
-//     img(goMoneyLogo, { height: 52, width: 52 }),
-//     br(14),
-//     p("Transaction Statement", {
-//       font: openSansSemibold,
-//       fontSize: 22
-//     }),
-//     br(46)
-//   ),
-//   div(
-//     style,
-//     div(
-//       style,
-//       p(faker.lorem.paragraph(10)),
-//       br(10),
-//       p(faker.lorem.paragraph(10)),
-//       br(10)
-//     ),
-//     div(
-//       style,
-//       p(faker.lorem.paragraph(10)),
-//       br(10),
-//       p(faker.lorem.paragraph(10)),
-//       br(10)
-//     )
-//   )
-//   // div(style, br(70))
-//   // div(
-//   //   style,
-//   //   {
-//   //     weight: 60,
-//   //     element: div(style, p("A(1,1)"), br(10), p("A(1,2)"))
-//   //   },
-//   //   {
-//   //     weight: 20,
-//   //     element: div(style, p("A(2,1)"), br(10), p("A(2,2)"))
-//   //   },
-//   //   {
-//   //     weight: 20,
-//   //     element: div(style, p("A(3,1)"), br(10), p("A(3,2)"))
-//   //   }
-//   // )
-// ];
+const flexStyle = {
+  display: "flex",
+  margin: 1
+};
 
-const elements = [];
-elements.push(bg([251, 251, 251]));
-elements.push(
-  ...Array.from({ length: 44 }).map(it => bg(faker.internet.color(), br(50)))
-);
+const elements = [
+  bg(251),
+  row(
+    flexStyle,
+    col("left", bg(faker.internet.color(), p("1"))),
+    col("none", bg(faker.internet.color(), p("2"))),
+    col("right", bg(faker.internet.color(), p("3"))),
+    col("right", bg(faker.internet.color(), p("4")))
+  )
+];
+
 render(context, elements);
 
 save(context.raw, "output.pdf");
