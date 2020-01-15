@@ -24,7 +24,7 @@ const context = new Context(54, {
   color: 33
 });
 
-const style = {
+const divStyle = {
   display: "block",
   margin: 1
 };
@@ -34,14 +34,16 @@ const flexStyle = {
   margin: 1
 };
 
+const fontStyle = { fontSize: 22, color: "white" };
+
 const elements = [
-  bg(251),
+  bg(231),
   row(
     flexStyle,
-    col("left", bg(faker.internet.color(), p("1"))),
-    col("none", bg(faker.internet.color(), p("2"))),
-    col("right", bg(faker.internet.color(), p("3"))),
-    col("right", bg(faker.internet.color(), p("4")))
+    col(["left", "right"], bg("black", p("1", fontStyle))),
+    col(["left", "right"], bg("black", p("2", fontStyle))),
+    col(["left", "right"], bg("black", p("3", fontStyle)))
+    // col(["left", "right"], bg("black", p("4", fontStyle)))
   )
 ];
 
