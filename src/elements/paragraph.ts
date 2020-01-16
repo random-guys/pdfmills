@@ -18,19 +18,23 @@ export class Paragraph implements Element {
 
   width(context: Context, box: BoundingBox): number {
     return context.withFont(this.style, () => {
-      return context.raw.widthOfString(this.text, {
-        width: box.width,
-        height: box.height
-      });
+      return Math.floor(
+        context.raw.widthOfString(this.text, {
+          width: box.width,
+          height: box.height
+        })
+      );
     });
   }
 
   height(context: Context, box: BoundingBox): number {
     return context.withFont(this.style, () => {
-      return context.raw.heightOfString(this.text, {
-        width: box.width,
-        height: box.height
-      });
+      return Math.floor(
+        context.raw.heightOfString(this.text, {
+          width: box.width,
+          height: box.height
+        })
+      );
     });
   }
 

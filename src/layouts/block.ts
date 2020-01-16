@@ -19,15 +19,13 @@ export class Block implements Layout {
   }
 
   height(context: Context, box: BoundingBox): number {
-    return sumBy(this.elements, e => e.height(context, box));
+    return Math.floor(sumBy(this.elements, e => e.height(context, box)));
   }
 
   draw(context: Context, box: BoundingBox): void {
     const boxes = this.boxes(context, { ...box });
 
-    if (this.style.background) {
-      this.style.background.draw(context, box);
-    }
+    this?.style?.background?.draw(context, box);
 
     this.elements.forEach((el, i) => {
       el.draw(context, boxes[i]);
