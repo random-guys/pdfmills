@@ -3,9 +3,10 @@ const {
   div,
   p,
   img,
+  pad,
   br,
   save,
-  Context,
+  configure,
   render,
   row,
   col
@@ -18,61 +19,48 @@ const openSans = join(assets, "fonts/OpenSans-Regular.ttf");
 const openSansSemibold = join(assets, "fonts/OpenSans-Semibold.ttf");
 const goMoneyLogo = join(assets, "img/logo.png");
 
-const context = new Context({
+const context = configure({
   margins: 54,
   fontStyle: {
     fontSize: 5,
     font: openSans,
     fontColor: 33
-  }
+  },
+  backgroundColor: 128
 });
 
 const style = {
-  display: "block",
-  margin: 1
+  display: "block"
 };
 
 const flexStyle = {
-  display: "flex",
-  margin: 1
+  display: "flex"
 };
 
-const fontStyle = { fontSize: 22, color: "white" };
-const paragraph = () => div(style, bg(231, p(faker.lorem.sentences(10))));
-const paragraph2 = () => div(style, bg(200, p(faker.lorem.sentences(10))));
+// const fontStyle = { fontSize: 22, color: "white" };
+const paragraph = () => bg(231, p(faker.lorem.sentences(10)));
+// const paragraph2 = () => div(style, bg(200, p(faker.lorem.sentences(10))));
 
-const firstRow = div(
-  style,
-  row({
-    style: flexStyle,
-    ratios: [30, 10, 10, 10, 10, 10, 10, 10],
-    elements: [
-      col(paragraph()),
-      col(paragraph()),
-      col(paragraph()),
-      col(paragraph()),
-      col(paragraph()),
-      col(paragraph()),
-      col(paragraph()),
-      col(paragraph())
-    ]
-  })
-);
+// const firstRow = div(
+//   style,
+//   [40, 30, 30],
+//   row({
+//     style: flexStyle,
+//     elements: [
+//       col(pad(10, paragraph())),
+//       col(pad(10, paragraph())),
+//       col(pad(10, paragraph()))
+//     ]
+//   })
+// );
 
+const goMoneyImg = pad(20, img(goMoneyLogo, { width: 36, height: 36 }));
 const secondRow = row({
   style: flexStyle,
-  elements: [
-    col(paragraph2(), ["left"]),
-    col(paragraph2(), ["left", "right"]),
-    col(paragraph2(), ["left", "right"])
-  ]
+  elements: [col(paragraph(), ["right"], 36), col(goMoneyImg, ["left"], 36)]
 });
 
-const elements = [
-  div(style, firstRow),
-  div(style, br(20)),
-  div(style, secondRow)
-];
+const elements = [secondRow];
 
 render(context, elements);
 

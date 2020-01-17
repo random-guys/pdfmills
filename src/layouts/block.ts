@@ -23,7 +23,7 @@ export class Block implements Layout {
   }
 
   draw(context: Context, box: BoundingBox): void {
-    const boxes = this.boxes(context, { ...box });
+    const boxes = this.boxes(context, box);
 
     this?.style?.background?.draw(context, box);
 

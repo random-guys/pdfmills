@@ -74,6 +74,14 @@ export class Context {
 }
 
 /**
+ * Creates a new Context
+ * @param params context config params
+ */
+export function configure(params: ContextParams) {
+  return new Context(params);
+}
+
+/**
  * DTO for initializing a Cotent
  */
 export interface ContextParams {

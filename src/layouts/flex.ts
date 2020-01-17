@@ -1,8 +1,19 @@
-import { BoundingBox, Context, FlexStyle, Layout, removeMargins } from "..";
+import {
+  BoundingBox,
+  Context,
+  FlexStyle,
+  Layout,
+  removeMargins,
+  ItemWidthError
+} from "..";
 import { FlexItem } from "./FlexItem";
 
 export class Flex implements Layout {
-  constructor(private style: FlexStyle, private items: FlexItem[]) {}
+  constructor(private style: FlexStyle, private items: FlexItem[]) {
+    items.forEach(it => {
+      if (!it.itemWidth) throw new ItemWidthError();
+    });
+  }
 
   width(_context: Context, box: BoundingBox) {
     return box.width;
@@ -31,7 +42,7 @@ export class Flex implements Layout {
 
     // check which margins the item has.
     this.items.forEach(i => {
-      originalWidth += i.width(context, box);
+      originalWidth += i.itemWidth;
 
       // this item has a left margin
       if (i.flexFloat.includes("left")) floatItemCount++;
