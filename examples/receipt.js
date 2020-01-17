@@ -3,9 +3,10 @@ const {
   div,
   p,
   img,
+  pad,
   br,
   save,
-  Context,
+  configure,
   render,
   row,
   col
@@ -18,23 +19,22 @@ const openSans = join(assets, "fonts/OpenSans-Regular.ttf");
 const openSansSemibold = join(assets, "fonts/OpenSans-Semibold.ttf");
 const goMoneyLogo = join(assets, "img/logo.png");
 
-const context = new Context({
+const context = configure({
   margins: 54,
   fontStyle: {
     fontSize: 5,
     font: openSans,
     fontColor: 33
-  }
+  },
+  backgroundColor: 128
 });
 
 const style = {
-  display: "block",
-  margin: 1
+  display: "block"
 };
 
 const flexStyle = {
-  display: "flex",
-  margin: 1
+  display: "flex"
 };
 
 const fontStyle = { fontSize: 22, color: "white" };
@@ -45,32 +45,20 @@ const firstRow = div(
   style,
   row({
     style: flexStyle,
-    ratios: [25, 15, 20, 20, 20],
     elements: [
-      col(paragraph()),
-      col(paragraph()),
-      col(paragraph()),
-      col(paragraph()),
-      col(paragraph())
+      col(pad(10, paragraph())),
+      col(pad(10, paragraph())),
+      col(pad(10, paragraph()))
     ]
   })
 );
 
 const secondRow = row({
   style: flexStyle,
-  elements: [
-    col(img(goMoneyLogo, { width: 20, height: 20 }), ["left"]),
-    col(paragraph2(), ["left"]),
-    col(paragraph2(), ["right"]),
-    col(paragraph2(), ["right"])
-  ]
+  elements: [col(pad(20, img(goMoneyLogo, { width: 36, height: 36 })))]
 });
 
-const elements = [
-  div(style, firstRow),
-  div(style, br(10)),
-  div(style, secondRow)
-];
+const elements = [secondRow];
 
 render(context, elements);
 
