@@ -9,3 +9,9 @@ export class RatioSumError extends Error {
     super("Item percentages must add up to 100");
   }
 }
+
+export class ItemWidthError extends Error {
+  constructor() {
+    super("All items should have an item width");
+  }
+}

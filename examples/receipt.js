@@ -37,25 +37,27 @@ const flexStyle = {
   display: "flex"
 };
 
-const fontStyle = { fontSize: 22, color: "white" };
-const paragraph = () => div(style, bg(231, p(faker.lorem.sentences(10))));
-const paragraph2 = () => div(style, bg(200, p(faker.lorem.sentences(10))));
+// const fontStyle = { fontSize: 22, color: "white" };
+const paragraph = () => bg(231, p(faker.lorem.sentences(10)));
+// const paragraph2 = () => div(style, bg(200, p(faker.lorem.sentences(10))));
 
-const firstRow = div(
-  style,
-  row({
-    style: flexStyle,
-    elements: [
-      col(pad(10, paragraph())),
-      col(pad(10, paragraph())),
-      col(pad(10, paragraph()))
-    ]
-  })
-);
+// const firstRow = div(
+//   style,
+//   [40, 30, 30],
+//   row({
+//     style: flexStyle,
+//     elements: [
+//       col(pad(10, paragraph())),
+//       col(pad(10, paragraph())),
+//       col(pad(10, paragraph()))
+//     ]
+//   })
+// );
 
+const goMoneyImg = pad(20, img(goMoneyLogo, { width: 36, height: 36 }));
 const secondRow = row({
   style: flexStyle,
-  elements: [col(pad(20, img(goMoneyLogo, { width: 36, height: 36 })))]
+  elements: [col(paragraph(), ["right"], 36), col(goMoneyImg, ["left"], 36)]
 });
 
 const elements = [secondRow];

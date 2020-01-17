@@ -12,7 +12,8 @@ export class FlexItem implements Element {
    */
   constructor(
     private element: Element,
-    readonly flexFloat: FlexFloat[] = ["left", "right"]
+    readonly flexFloat: FlexFloat[] = ["left", "right"],
+    readonly itemWidth?: number
   ) {}
 
   width(context: Context, box: BoundingBox): number {
