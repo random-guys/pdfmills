@@ -9,6 +9,7 @@ import {
 } from "..";
 import { sum } from "lodash";
 import { FlexItem } from "./FlexItem";
+import { toFixed } from "../utils";
 
 /**
  * Creates a row that draws columns based on the ratio passed
@@ -50,8 +51,7 @@ export class RatioFlex implements Layout {
 
   getRatioMap(box: BoundingBox) {
     const ratioSum = sum(this.ratios);
-    // console.log(this.ratios.map(it => (it / ratioSum) * box.width));
-    return this.ratios.map(it => (it / ratioSum) * box.width);
+    return this.ratios.map(it => toFixed((it / ratioSum) * box.width));
   }
 
   boxes(context: Context, box: BoundingBox): BoundingBox[] {

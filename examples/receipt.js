@@ -45,11 +45,8 @@ const firstRow = div(
   style,
   row({
     style: flexStyle,
-    ratios: [30, 10, 10, 10, 10, 10, 10, 10],
+    ratios: [25, 15, 20, 20, 20],
     elements: [
-      col(paragraph()),
-      col(paragraph()),
-      col(paragraph()),
       col(paragraph()),
       col(paragraph()),
       col(paragraph()),
@@ -70,7 +67,9 @@ const secondRow = row({
 
 const elements = [
   div(style, firstRow),
-  div(style, br(20)),
+  div(style, br(10)),
+  div(style, firstRow),
+  div(style, br(10)),
   div(style, secondRow)
 ];
 
