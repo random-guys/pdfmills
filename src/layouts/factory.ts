@@ -1,7 +1,14 @@
-import { Element, FlexStyle, FlexFloat } from "..";
+import {
+  Element,
+  FlexStyle,
+  FlexFloat,
+  ColorValue,
+  ElementBackground
+} from "..";
 import { FlexItem } from "./FlexItem";
-import { EqualFlex } from "./flex-equal";
 import { RatioFlex } from "./flex-ratio";
+import { Background } from "./background";
+import { EqualFlex } from "./flex-equal";
 
 export interface RowParams {
   style: FlexStyle;
@@ -15,9 +22,9 @@ export interface RowParams {
  * @param elements list of elements to layout with their flex configuration
  */
 export function row(params: RowParams) {
-  if (params.ratios)
+  if (params.ratios) {
     return new RatioFlex(params.style, params.ratios, params.elements);
-  else return new EqualFlex(params.style, params.elements);
+  } else return new EqualFlex(params.style, params.elements);
 }
 
 /**
@@ -27,4 +34,13 @@ export function row(params: RowParams) {
  */
 export function col(element: Element, float: FlexFloat[] = ["left", "right"]) {
   return new FlexItem(element, float);
+}
+
+/**
+ *
+ * @param color the background color
+ */
+export function bg(color: ColorValue, element?: Element) {
+  if (element) return new ElementBackground(color, element);
+  else return new Background(color);
 }

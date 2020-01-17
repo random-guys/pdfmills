@@ -59,15 +59,14 @@ const firstRow = div(
 const secondRow = row({
   style: flexStyle,
   elements: [
+    col(img(goMoneyLogo, { width: 20, height: 20 }), ["left"]),
     col(paragraph2(), ["left"]),
-    col(paragraph2(), ["left", "right"]),
-    col(paragraph2(), ["left", "right"])
+    col(paragraph2(), ["right"]),
+    col(paragraph2(), ["right"])
   ]
 });
 
 const elements = [
-  div(style, firstRow),
-  div(style, br(10)),
   div(style, firstRow),
   div(style, br(10)),
   div(style, secondRow)
