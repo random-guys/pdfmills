@@ -9,6 +9,8 @@ import { FlexItem } from "./FlexItem";
 import { RatioFlex } from "./flex-ratio";
 import { Background } from "./background";
 import { EqualFlex } from "./flex-equal";
+import { CSSMargins } from "../utils";
+import { Padding } from "./padding";
 
 export interface RowParams {
   style: FlexStyle;
@@ -43,4 +45,13 @@ export function col(element: Element, float: FlexFloat[] = ["left", "right"]) {
 export function bg(color: ColorValue, element?: Element) {
   if (element) return new ElementBackground(color, element);
   else return new Background(color);
+}
+
+/**
+ *
+ * @param margins CSS Margins
+ * @param element The element being wrapped
+ */
+export function pad(margins: CSSMargins, element: Element) {
+  return new Padding(margins, element);
 }
