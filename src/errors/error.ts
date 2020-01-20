@@ -15,3 +15,9 @@ export class ItemWidthError extends Error {
     super("All items should have an item width");
   }
 }
+
+export class InvalidItemError extends Error {
+  constructor() {
+    super("Only `col()` should be children of `row()`");
+  }
+}

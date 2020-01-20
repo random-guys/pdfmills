@@ -4,13 +4,15 @@ import {
   FlexStyle,
   Layout,
   removeMargins,
-  ItemWidthError
+  ItemWidthError,
+  InvalidItemError
 } from "..";
 import { FlexItem } from "./FlexItem";
 
 export class Flex implements Layout {
   constructor(private style: FlexStyle, private items: FlexItem[]) {
     items.forEach(it => {
+      if (!(it instanceof FlexItem)) throw new InvalidItemError();
       if (!it.itemWidth) throw new ItemWidthError();
     });
   }
@@ -20,7 +22,9 @@ export class Flex implements Layout {
   }
 
   height(context: Context, box: BoundingBox) {
-    return Math.max(...this.items.map(i => i.height(context, box)));
+    return Math.max(
+      ...this.items.map(i => i.height(context, { ...box, width: i.itemWidth }))
+    );
   }
 
   draw(context: Context, box: BoundingBox) {
@@ -55,13 +59,12 @@ export class Flex implements Layout {
     floatSpace = remainingSpace / floatItemCount;
 
     const boxes: BoundingBox[] = [];
-    const height = this.height(context, box);
     const y = box.y;
-
     let x = box.x;
 
     for (const i of this.items) {
-      const width = i.width(context, box);
+      const width = i.itemWidth;
+      const height = this.height(context, { ...box, width });
 
       // move the box to the left of the FloatSpace
       if (i.flexFloat.includes("left")) x += floatSpace;
