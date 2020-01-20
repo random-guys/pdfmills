@@ -1,12 +1,14 @@
 import PDFDocument from "pdfkit";
 import {
   CSSMargins,
-  FontConfig,
+  FontStyle,
   Margins,
   switchFont,
-  toEnglish
+  toEnglish,
+  getRGB,
+  ColorValue
 } from "../utils";
-import { BoundingBox, pageBounds } from "./bounding-box";
+import { pageBounds } from "./bounding-box";
 
 /**
  * This is a state manager for a PDFKit document. It helps us track the PDFKit
@@ -21,47 +23,35 @@ export class Context {
    * Established margins for the document
    */
   readonly margins: Margins;
-
-  private box: BoundingBox;
-  private defaultFont: FontConfig;
+  private defaultFont: FontStyle;
+  private backgoundColor: ColorValue;
 
   /**
    * Create a new context for managing a document
    * @param margins CSS style margins
    * @param config default font configuration
    */
-  constructor(margins: CSSMargins, config: FontConfig) {
-    this.margins = toEnglish(margins);
-    this.raw = new PDFDocument({
-      size: "A4",
-      margins: this.margins
-    });
+  constructor(params: ContextParams) {
+    this.margins = toEnglish(params.margins);
+    this.raw = new PDFDocument({ size: "A4", margins: this.margins });
 
-    this.box = pageBounds(this.margins);
+    // set the background color of the page
+    this.backgoundColor = params.backgroundColor || "white";
+    this.setBackground(this.backgoundColor);
 
-    switchFont(this.raw, config);
-    this.defaultFont = config;
+    switchFont(this.raw, params.fontStyle);
+    this.defaultFont = params.fontStyle;
   }
 
-  /**
-   * Returns the bounding box of the document where no `Element` has
-   * been `drawn`
-   */
-  bounds() {
-    return { ...this.box };
+  // use this to set a watermark or a background color of the page
+  setBackground(color: ColorValue) {
+    const box = pageBounds(this.margins);
+    this.raw.rect(box.x, box.y, box.width, box.height).fill(getRGB(color));
   }
 
-  /**
-   * Move the bounding box by the left and top bar.
-   * @param deltaX movement of the left bound
-   * @param deltaY movement of the right bound
-   */
-  reframe(deltaX: number, deltaY: number) {
-    this.box.x += deltaX;
-    this.box.width -= deltaX;
-
-    this.box.y += deltaY;
-    this.box.height -= deltaY;
+  addPage() {
+    this.raw.addPage({ size: "A4", margins: this.margins });
+    this.setBackground(this.backgoundColor);
   }
 
   /**
@@ -70,7 +60,7 @@ export class Context {
    * @param config pdfmills `FontConfig`
    * @param action action to use `config`
    */
-  withFont<T>(config: FontConfig, action: () => T): T {
+  withFont<T>(config: FontStyle, action: () => T): T {
     if (!config) {
       switchFont(this.raw, this.defaultFont);
       return action();
@@ -81,4 +71,21 @@ export class Context {
 
     return result;
   }
+}
+
+/**
+ * Creates a new Context
+ * @param params context config params
+ */
+export function configure(params: ContextParams) {
+  return new Context(params);
+}
+
+/**
+ * DTO for initializing a Cotent
+ */
+export interface ContextParams {
+  backgroundColor: ColorValue;
+  fontStyle: FontStyle;
+  margins: CSSMargins;
 }

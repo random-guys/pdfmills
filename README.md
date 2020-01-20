@@ -4,10 +4,17 @@ A simple wrapper around [pdfkit](https://github.com/foliojs/pdfkit) that favors 
 
 ## What's inside
 
-- Basic objects like `Text`, `Image`
-- Layouts like `SpaceBetween`(equivalent of `justify-content: space-between`), `Block`, `WeightedRow`
-- Spacing using `LineBreak` and `Margin`
-- `Table` layout for free
+- Basic objects:
+  - `Text`
+  - `Image`
+- Layouts:
+  - `SpaceBetween`(equivalent of `justify-content: space-between`)
+  - `Block`
+  - `WeightedRow`
+  - `Table`
+- Spacing:
+  - `LineBreaks` for vertical spaces
+  - `Margin` to replace `margin` or `padding`
 - Draw over multiple pages using `Multipage`
 
 ## How to install

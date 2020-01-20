@@ -1,74 +1,92 @@
-var { Context, pageBounds } = require("../dist/base");
-var {
-  Image,
-  LineBreak,
-  Text,
-  Background,
-  Block
-} = require("../dist/drawables");
-var { background, block, spaceBetween, weightedRow } = require("../dist/pdf");
-var { save } = require("../dist/utils");
-var path = require("path");
+const {
+  bg,
+  div,
+  p,
+  img,
+  pad,
+  br,
+  save,
+  configure,
+  render,
+  row,
+  col
+} = require("../dist");
+const { join } = require("path");
+const faker = require("faker");
 
-const assets = path.join(__dirname, "assets");
-const openSans = path.join(assets, "fonts/OpenSans-Regular.ttf");
-const openSansSemibold = path.join(assets, "fonts/OpenSans-Semibold.ttf");
-const goMoneyLogo = path.join(assets, "img/logo.png");
+const assets = join(__dirname, "assets");
+const openSans = join(assets, "fonts/OpenSans-Regular.ttf");
+const openSansSemibold = join(assets, "fonts/OpenSans-Semibold.ttf");
+const goMoneyLogo = join(assets, "img/logo.png");
 
-const context = new Context(54, {
-  font: openSans,
-  fontSize: 8,
-  color: 33
-});
-
-background(context, 251, {
-  ...pageBounds(),
-  height: 284
-});
-
-block(context, [
-  new Image(goMoneyLogo, 52, 52),
-  new LineBreak(14),
-  new Text("Transaction Statement", {
-    font: openSansSemibold,
-    fontSize: 22
-  }),
-  new LineBreak(46)
-]);
-
-spaceBetween(context, [
-  new Block([new Text("A(1,1)"), new LineBreak(10), new Text("A(1,2)")]),
-  new Block([new Text("A(2,1)"), new LineBreak(10), new Text("A(2,2)")]),
-  new Block([new Text("A(3,1)"), new LineBreak(10), new Text("A(3,2)")])
-]);
-
-block(context, [new LineBreak(70)]);
-
-weightedRow(context, [
-  {
-    weight: 60,
-    element: new Block([
-      new Text("A(1,1)"),
-      new LineBreak(10),
-      new Text("A(1,2)")
-    ])
-  },
-  {
-    weight: 20,
-    element: new Block([
-      new Text("A(2,1)"),
-      new LineBreak(10),
-      new Text("A(2,2)")
-    ])
-  },
-  {
-    weight: 20,
-    element: new Block([
-      new Text("A(3,1)"),
-      new LineBreak(10),
-      new Text("A(3,2)")
-    ])
+const context = configure({
+  margins: 54,
+  fontStyle: {
+    fontSize: 8,
+    font: openSans,
+    fontColor: 33
   }
-]);
+});
+
+const style = {
+  display: "block"
+};
+
+const flexStyle = {
+  display: "flex"
+};
+
+const alignRight = {
+  fontSize: 8,
+  font: openSans,
+  fontColor: 33,
+  align: "right"
+};
+const titleStyle = { fontSize: 14, fontColor: "white" };
+const headerStyle = {
+  fontSize: 26,
+  align: "right",
+  fontFamily: openSansSemibold
+};
+
+const goMoneyImg = img(goMoneyLogo, { width: 52, height: 52 });
+const firstRow = div(
+  { margin: 4 },
+  row({
+    style: flexStyle,
+    elements: [
+      col(goMoneyImg, ["right"], 52),
+      col(
+        div(
+          { margin: 0 },
+          p("Statement", headerStyle),
+          br(10),
+          p("Sule Mandem Fari", alignRight),
+          p("6 Adebisi Ogunniyi Lekki phase 1,", alignRight),
+          p("Lagos,Nigeria.", alignRight),
+          br(20)
+        ),
+        ["left"],
+        160
+      )
+    ]
+  })
+);
+
+const secondRow = div(
+  { margin: 4 },
+  row({
+    style: flexStyle,
+    elements: [
+      col(bg(241, p("START DATE")), ["right"], 60),
+      col(bg(241, p("ACCOUNT NUMBER", alignRight)), ["right", "left"], 100),
+      col(bg(241, p("INCOME", alignRight)), ["left"], 60)
+    ]
+  })
+);
+
+const elements = [firstRow, secondRow];
+
+render(context, elements);
 
 save(context.raw, "output.pdf");

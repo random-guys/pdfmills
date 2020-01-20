@@ -1,4 +1,4 @@
-import { Margins, toEnglish } from "../utils";
+import { Margins, toEnglish, CSSMargins } from "../utils";
 
 export const A4_WIDTH = 595;
 export const A4_HEIGHT = 842;
@@ -45,5 +45,20 @@ export function pageBounds(margins?: Margins): BoundingBox {
     y: margins.right,
     width: A4_WIDTH - (margins.left + margins.right),
     height: A4_HEIGHT - (margins.top + margins.bottom)
+  };
+}
+
+/**
+ * Resize the box based on the given margins
+ * @param box box to be resized
+ * @param margins margins to use to resize
+ */
+export function removeMargins(box: BoundingBox, margins?: CSSMargins) {
+  const english = toEnglish(margins);
+  return {
+    x: box.x + english.left,
+    y: box.y + english.top,
+    width: box.width - (english.left + english.right),
+    height: box.height - (english.top + english.bottom)
   };
 }

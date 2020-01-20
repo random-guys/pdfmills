@@ -6,10 +6,11 @@ export type ColorValue = number | PDFKit.Mixins.ColorValue;
 /**
  * An object to bring together PDFKit's font settings
  */
-export interface FontConfig {
-  font?: string;
+export interface FontStyle {
+  align?: "center" | "justify" | "left" | "right";
   fontSize?: number;
-  color?: ColorValue;
+  fontFamily?: string;
+  fontColor?: ColorValue;
 }
 
 /**
@@ -25,8 +26,8 @@ export function getRGB(color: ColorValue): PDFKit.Mixins.ColorValue {
  * @param doc PDFKit document
  * @param config pdfmills `FontConfig`
  */
-export function switchFont(doc: PDFKit.PDFDocument, config: FontConfig) {
-  if (config.font) doc.font(config.font);
-  if (config.font) doc.fontSize(config.fontSize);
-  if (config.color) doc.fillColor(getRGB(config.color));
+export function switchFont(doc: PDFKit.PDFDocument, config: FontStyle) {
+  if (config.fontFamily) doc.font(config.fontFamily);
+  if (config.fontSize) doc.fontSize(config.fontSize);
+  if (config.fontColor) doc.fillColor(getRGB(config.fontColor));
 }
