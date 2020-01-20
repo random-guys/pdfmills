@@ -4,8 +4,6 @@ import { BoundingBox, Context, Element, ImageStyle } from "../base";
  * `Image` is the equivalent of `<img />`
  */
 export class Image implements Element {
-  name: string = "Image";
-
   /**
    * Create a new image without drawing it
    * @param src path to the source image. For the sake of everyone involved please use an

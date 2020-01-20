@@ -10,13 +10,10 @@ import {
 import { FlexItem } from "./FlexItem";
 
 export class Flex implements Layout {
-  // overriden from drawable
-  name: string = "Flex";
-
   constructor(private style: FlexStyle, private items: FlexItem[]) {
     items.forEach(it => {
+      if (!(it instanceof FlexItem)) throw new InvalidItemError();
       if (!it.itemWidth) throw new ItemWidthError();
-      if (it.name !== "FlexItem") throw new InvalidItemError();
     });
   }
 

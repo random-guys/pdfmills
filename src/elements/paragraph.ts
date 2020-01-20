@@ -5,8 +5,6 @@ import { FontStyle } from "../utils";
  * `Paragraph` is essentially a paragraph.
  */
 export class Paragraph implements Element {
-  name: string = "Paragraph";
-
   /**
    * Create a new paragraph element.
    * @param text string to be written

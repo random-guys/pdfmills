@@ -7,8 +7,6 @@ import { removeMargins } from "../base/bounding-box";
  * of its bounding box.
  */
 export class Block implements Layout {
-  name: string = "Block";
-
   /**
    * Create a new block layout.
    * @param style background and margin for the block

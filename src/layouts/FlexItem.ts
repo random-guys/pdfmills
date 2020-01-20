@@ -4,8 +4,6 @@ import { BoundingBox, Context, Element, FlexFloat } from "../base";
  * and interprete it for the calculation of width and height
  */
 export class FlexItem implements Element {
-  name: string = "FlexItem";
-
   /**
    * Creates a new element with flex specific configuration
    * @param flexFloat how to allocate space at the sides of this element

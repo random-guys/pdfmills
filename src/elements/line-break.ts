@@ -4,8 +4,6 @@ import { BoundingBox, Context, Element, LineBreakStyle } from "../base";
  * `LineBreak` is just vertical space between block elements.
  */
 export class LineBreak implements Element {
-  name: string = "LineBreak";
-
   /**
    * Create a new line break
    * @param style configuration for line break
