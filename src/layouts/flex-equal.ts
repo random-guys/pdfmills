@@ -5,6 +5,8 @@ import { FlexItem } from "./FlexItem";
  * Creates a row that draws columns giving them equal spacing
  */
 export class EqualFlex implements Layout {
+  name: string = "EqualFlex";
+
   constructor(private style: FlexStyle, private items: FlexItem[]) {}
 
   width(_context: Context, box: BoundingBox) {

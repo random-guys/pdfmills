@@ -6,6 +6,8 @@ import { ColorValue, getRGB } from "../utils";
  * arbitrary bounding box.
  */
 export class Background implements Drawable {
+  name: string = "Background";
+
   /**
    * Create a background that can be drawn anywhere
    * @param color background color

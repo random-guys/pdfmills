@@ -5,6 +5,8 @@ import { Context } from "./context";
  * This is an object that can be drawn on a PDFKit document
  */
 export interface Drawable {
+  name: string;
+
   /**
    * Draw an object in a bounding box specified by `box`
    * @param doc PDFKit Document

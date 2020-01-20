@@ -22,11 +22,10 @@ const goMoneyLogo = join(assets, "img/logo.png");
 const context = configure({
   margins: 54,
   fontStyle: {
-    fontSize: 5,
+    fontSize: 8,
     font: openSans,
     fontColor: 33
-  },
-  backgroundColor: 128
+  }
 });
 
 const style = {
@@ -37,30 +36,56 @@ const flexStyle = {
   display: "flex"
 };
 
-// const fontStyle = { fontSize: 22, color: "white" };
-const paragraph = () => bg(231, p(faker.lorem.sentences(10)));
-// const paragraph2 = () => div(style, bg(200, p(faker.lorem.sentences(10))));
+const alignRight = {
+  fontSize: 8,
+  font: openSans,
+  fontColor: 33,
+  align: "right"
+};
+const titleStyle = { fontSize: 14, fontColor: "white" };
+const headerStyle = {
+  fontSize: 26,
+  align: "right",
+  fontFamily: openSansSemibold
+};
 
-// const firstRow = div(
-//   style,
-//   [40, 30, 30],
-//   row({
-//     style: flexStyle,
-//     elements: [
-//       col(pad(10, paragraph())),
-//       col(pad(10, paragraph())),
-//       col(pad(10, paragraph()))
-//     ]
-//   })
-// );
+const goMoneyImg = img(goMoneyLogo, { width: 52, height: 52 });
+const firstRow = div(
+  { margin: 4 },
+  row({
+    style: flexStyle,
+    elements: [
+      col(goMoneyImg, ["right"], 52),
+      col(
+        div(
+          { margin: 0 },
+          p("Statement", headerStyle),
+          br(10),
+          p("Sule Mandem Fari", alignRight),
+          p("6 Adebisi Ogunniyi Lekki phase 1,", alignRight),
+          p("Lagos,Nigeria.", alignRight),
+          br(20)
+        ),
+        ["left"],
+        160
+      )
+    ]
+  })
+);
 
-const goMoneyImg = pad(20, img(goMoneyLogo, { width: 36, height: 36 }));
-const secondRow = row({
-  style: flexStyle,
-  elements: [col(paragraph(), ["right"], 36), col(goMoneyImg, ["left"], 36)]
-});
+const secondRow = div(
+  { margin: 4 },
+  row({
+    style: flexStyle,
+    elements: [
+      col(bg(241, p("START DATE")), ["right"], 60),
+      col(bg(241, p("ACCOUNT NUMBER", alignRight)), ["right", "left"], 100),
+      col(bg(241, p("INCOME", alignRight)), ["left"], 60)
+    ]
+  })
+);
 
-const elements = [secondRow];
+const elements = [firstRow, secondRow];
 
 render(context, elements);
 

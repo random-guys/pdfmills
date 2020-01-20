@@ -15,6 +15,8 @@ import { toFixed } from "../utils";
  * Creates a row that draws columns based on the ratio passed
  */
 export class RatioFlex implements Layout {
+  name: string = "RatioFlex";
+
   constructor(
     private style: FlexStyle,
     private ratios: number[],

@@ -5,6 +5,8 @@ import { ColorValue, getRGB } from "../utils";
  * box of any element.
  */
 export class ElementBackground implements Element {
+  name: string = "ElementBackground";
+
   constructor(private color: ColorValue, private element: Element) {}
 
   width(_context: Context, box: BoundingBox): number {

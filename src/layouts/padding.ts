@@ -2,6 +2,8 @@ import { Layout, Context, Element, BoundingBox } from "../base";
 import { toEnglish, CSSMargins, Margins, getRGB } from "../utils";
 
 export class Padding implements Element {
+  name: string = "Padding";
+
   constructor(private margins: CSSMargins, private element: Element) {}
 
   width(context: Context, box: BoundingBox): number {
