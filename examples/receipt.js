@@ -15,18 +15,21 @@ const { join } = require("path");
 const faker = require("faker");
 
 const assets = join(__dirname, "assets");
-const openSans = join(assets, "fonts/OpenSans-Regular.ttf");
-const openSansSemibold = join(assets, "fonts/OpenSans-Semibold.ttf");
+const montserrat = join(assets, "fonts/Montserrat-Regular.ttf");
+const montserratSemibold = join(assets, "fonts/Montserrat-Semibold.ttf");
 const goMoneyLogo = join(assets, "img/logo.png");
 
 const context = configure({
   margins: 54,
   fontStyle: {
     fontSize: 8,
-    font: openSans,
+    fontFamily: montserrat,
     fontColor: 33
   }
 });
+
+// draw header bg
+context.raw.rect(box.x, box.y, box.width, box.height).fill(getRGB(251));
 
 const style = {
   display: "block"
@@ -38,15 +41,16 @@ const flexStyle = {
 
 const alignRight = {
   fontSize: 8,
-  font: openSans,
+  fontFamily: montserrat,
   fontColor: 33,
   align: "right"
 };
-const titleStyle = { fontSize: 14, fontColor: "white" };
+const headerFont = { ...alignRight, fontColor: [130, 134, 145] };
+
 const headerStyle = {
   fontSize: 26,
   align: "right",
-  fontFamily: openSansSemibold
+  fontFamily: montserratSemibold
 };
 
 const goMoneyImg = img(goMoneyLogo, { width: 52, height: 52 });
@@ -63,8 +67,7 @@ const firstRow = div(
           br(10),
           p("Sule Mandem Fari", alignRight),
           p("6 Adebisi Ogunniyi Lekki phase 1,", alignRight),
-          p("Lagos,Nigeria.", alignRight),
-          br(20)
+          p("Lagos,Nigeria.", alignRight)
         ),
         ["left"],
         160
@@ -78,14 +81,51 @@ const secondRow = div(
   row({
     style: flexStyle,
     elements: [
-      col(bg(241, p("START DATE")), ["right"], 60),
-      col(bg(241, p("ACCOUNT NUMBER", alignRight)), ["right", "left"], 100),
-      col(bg(241, p("INCOME", alignRight)), ["left"], 60)
+      col(p("START DATE"), ["right"], 60),
+      col(p("ACCOUNT NUMBER", alignRight), ["right", "left"], 100),
+      col(p("INCOME", alignRight), ["left"], 60)
+    ]
+  }),
+  row({
+    style: flexStyle,
+    elements: [
+      col(p("12/03/07", { ...headerFont, align: "left" }), ["right"], 60),
+      col(p("0087567843", headerFont), ["right", "left"], 100),
+      col(p("₦250,000", headerFont), ["left"], 60)
+    ]
+  }),
+  br(10),
+  row({
+    style: flexStyle,
+    elements: [
+      col(p("END DATE"), ["right"], 60),
+      col(p("BALANCE", alignRight), ["right", "left"], 100),
+      col(p("INCOME", alignRight), ["left"], 60)
+    ]
+  }),
+  row({
+    style: flexStyle,
+    elements: [
+      col(p("12/03/07", { ...headerFont, align: "left" }), ["right"], 60),
+      col(p("₦560,000", headerFont), ["right", "left"], 100),
+      col(p("₦25,000", headerFont), ["left"], 60)
     ]
   })
 );
 
-const elements = [firstRow, secondRow];
+const thirdRow = div(
+  { margin: 4 },
+  row({
+    style: flexStyle,
+    elements: [
+      col(p("START DATE"), ["right"], 60),
+      col(p("₦560,000", alignRight), ["right", "left"], 100),
+      col(p("₦25,000", alignRight), ["left"], 60)
+    ]
+  })
+);
+
+const elements = [firstRow, br(30), secondRow, br(20), thirdRow];
 
 render(context, elements);
 
