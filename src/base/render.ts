@@ -1,4 +1,5 @@
 import { Element, Context, BoundingBox, pageBounds } from ".";
+import { Table } from "../layouts";
 
 export class Renderer {
   private box: BoundingBox;
@@ -15,6 +16,16 @@ export class Renderer {
     const boxes: BoundingBox[] = [];
     let y = this.box.y;
     let remaningHeight = this.box.height;
+
+    // check if the element is a table
+    for (let i = 0; i < elements.length; i++) {
+      const el = elements[i];
+      if (el instanceof Table) {
+        elements.push(...el.rows());
+        elements.splice(i, 1);
+        break;
+      }
+    }
 
     for (const el of elements) {
       const height = el.height(this.context, {
@@ -67,8 +78,4 @@ export class Renderer {
     this.box.y += deltaY;
     this.box.height -= deltaY;
   }
-}
-
-export function render(context: Context, elements: Element[]): void {
-  return new Renderer(context).render(elements);
 }
