@@ -8,7 +8,7 @@ import {
   removeMargins
 } from "..";
 import { sum } from "lodash";
-import { FlexItem } from "./FlexItem";
+import { FlexItem } from "./flex-item";
 import { toFixed } from "../utils";
 
 /**
