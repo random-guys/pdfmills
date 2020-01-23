@@ -7,7 +7,7 @@ import {
   ItemWidthError,
   InvalidItemError
 } from "..";
-import { FlexItem } from "./FlexItem";
+import { FlexItem } from "./flex-item";
 
 export class Flex implements Layout {
   constructor(private style: FlexStyle, private items: FlexItem[]) {

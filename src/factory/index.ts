@@ -3,14 +3,20 @@ import {
   FlexStyle,
   FlexFloat,
   ColorValue,
-  ElementBackground
+  ElementBackground,
+  BlockStyle,
+  Layout,
+  Context,
+  Renderer,
+  FlexItem,
+  RatioFlex,
+  Flex,
+  Background,
+  CSSMargins,
+  Padding,
+  Table,
+  Block
 } from "..";
-import { FlexItem } from "./FlexItem";
-import { RatioFlex } from "./flex-ratio";
-import { Background } from "./background";
-import { Flex } from "./flex";
-import { CSSMargins } from "../utils";
-import { Padding } from "./padding";
 
 export interface RowParams {
   style: FlexStyle;
@@ -58,4 +64,33 @@ export function bg(color: ColorValue, element?: Element) {
  */
 export function pad(margins: CSSMargins, element: Element) {
   return new Padding(margins, element);
+}
+
+/**
+ * Factory function for creating a new block layout.
+ * @param style background and margin for the block
+ * @param rows list of elements to layout
+ */
+export function table(style: BlockStyle, ...rows: Layout[]) {
+  return new Table(style, rows);
+}
+
+/**
+ * Factory function for creating a new block layout.
+ * @param style background and margin for the block
+ * @param elements list of elements to layout
+ */
+export function div(style: BlockStyle, ...elements: Element[]) {
+  return new Block(style, elements);
+}
+
+/**
+ * Creates a new renderer that calculates the boxes
+ * needed to draw items and actually draws them.
+ *
+ * @param context the global state of the PDF Document
+ * @param elements list of elements to layout
+ */
+export function render(context: Context, elements: Element[]) {
+  return new Renderer(context).render(elements);
 }
