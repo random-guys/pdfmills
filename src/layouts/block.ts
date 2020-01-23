@@ -57,12 +57,3 @@ export class Block implements Layout {
     return boxes;
   }
 }
-
-/**
- * Factory function for creating a new block layout.
- * @param style background and margin for the block
- * @param elements list of elements to layout
- */
-export function div(style: BlockStyle, ...elements: Element[]) {
-  return new Block(style, elements);
-}

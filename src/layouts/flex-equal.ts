@@ -1,5 +1,5 @@
 import { BoundingBox, Context, FlexStyle, Layout, removeMargins } from "..";
-import { FlexItem } from "./FlexItem";
+import { FlexItem } from "./flex-item";
 
 /**
  * Creates a row that draws columns giving them equal spacing
