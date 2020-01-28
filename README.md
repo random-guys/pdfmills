@@ -99,8 +99,17 @@ const elements = [firstRow, br(50), secondRow, br(40), thirdRow];
 // write the elements to the buffer
 render(context, elements);
 
-// write the buffer to the file stream
+// you can write the buffer to the file stream
 save(context.raw, "output.pdf");
+
+// you can also upload the file to Azure blob storage
+import { Blobber } from "@random-guys/blobber";
+import uuid from "uuid/v4";
+
+const tempName = `${uuid()}.pdf`;
+const uploader = new Blobber<any>("reports");
+context.raw.end();
+return await uploader.streamLocalFile(tempName, this.context.raw);
 ```
 
 Checkout the [examples](https://github.com/random-guys/pdfmills/tree/develop/examples) folder for real life examples.
