@@ -1,6 +1,6 @@
 {
   "name": "@random-guys/pdfmills",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Wrapper around pdfkit",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
