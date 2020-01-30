@@ -1,5 +1,6 @@
 import { Element, Context, BoundingBox, pageBounds } from ".";
 import { Table } from "../layouts";
+import { LineBreak } from "../elements";
 
 export class Renderer {
   private box: BoundingBox;
@@ -28,6 +29,12 @@ export class Renderer {
     }
 
     for (const el of elements) {
+      // @ts-ignore
+      if (!(el instanceof LineBreak) && el.elements[0]) {
+        // @ts-ignore
+        console.log(el.elements[0].items.map(it => it.element.text));
+      }
+
       const height = el.height(this.context, {
         x: this.box.x,
         y,
