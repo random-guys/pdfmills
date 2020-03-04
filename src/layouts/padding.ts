@@ -1,29 +1,35 @@
-import { Layout, Context, Element, BoundingBox } from "../base";
-import { toEnglish, CSSMargins, Margins, getRGB } from "../utils";
+import { BoundingBox, Context, Element } from "../base";
+import { CSSMargins, Margins, toEnglish } from "../utils";
 
 export class Padding implements Element {
-  constructor(private margins: CSSMargins, private element: Element) {}
+  private margins: Margins;
+  constructor(cssMargins: CSSMargins, private element: Element) {
+    this.margins = toEnglish(cssMargins);
+  }
 
   width(context: Context, box: BoundingBox): number {
-    const margins: Margins = toEnglish(this.margins);
-    return this.element.width(context, box) + (margins.left + margins.right);
+    return (
+      this.element.width(context, box) +
+      (this.margins.left + this.margins.right)
+    );
   }
 
   height(context: Context, box: BoundingBox): number {
-    const margins: Margins = toEnglish(this.margins);
-    return this.element.height(context, box) + (margins.top + margins.bottom);
+    return (
+      this.element.height(context, box) +
+      (this.margins.top + this.margins.bottom)
+    );
   }
 
   draw(context: Context, _box: BoundingBox): void {
-    const margins: Margins = toEnglish(this.margins);
     const elementWidth = this.element.width(context, _box);
     const elementHeight = this.element.height(context, _box);
 
     const elBox: BoundingBox = {
-      x: _box.x + margins.left,
-      y: _box.y + margins.top,
-      width: elementWidth - (margins.left + margins.right),
-      height: elementHeight - (margins.top + margins.bottom)
+      x: _box.x + this.margins.left,
+      y: _box.y + this.margins.top,
+      width: elementWidth - (this.margins.left + this.margins.right),
+      height: elementHeight - (this.margins.top + this.margins.bottom)
     };
 
     this.element.draw(context, elBox);
