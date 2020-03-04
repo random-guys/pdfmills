@@ -1,5 +1,4 @@
 export * from "./block";
-export * from "./background";
 export * from "./flex-ratio";
 export * from "./flex-equal";
 export * from "./flex";
