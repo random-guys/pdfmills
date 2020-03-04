@@ -49,13 +49,3 @@ export class Paragraph implements Element {
     });
   }
 }
-
-/**
- * Factory function for `Paragraph`
- * @param text string to be written
- * @param style font and color to use. Note that the font and font
- * size affect the `real` width and height of the text element
- */
-export function p(text: string, style?: FontStyle) {
-  return new Paragraph(text, style);
-}
