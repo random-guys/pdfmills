@@ -1,22 +1,15 @@
 import {
-  Element,
-  FlexStyle,
-  FlexFloat,
-  ColorValue,
-  ElementBackground,
   BlockStyle,
-  Layout,
   Context,
-  Renderer,
-  FlexItem,
-  RatioFlex,
-  Flex,
-  Background,
-  CSSMargins,
-  Padding,
-  Table,
-  Block
-} from "..";
+  Element,
+  FlexFloat,
+  FlexStyle,
+  Layout,
+  Renderer
+} from "./base";
+import { Background, ElementBackground } from "./elements";
+import { Block, Flex, FlexItem, Padding, RatioFlex, Table } from "./layouts";
+import { ColorValue, CSSMargins } from "./utils";
 
 export interface RowParams {
   style: FlexStyle;
