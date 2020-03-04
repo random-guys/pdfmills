@@ -1,15 +1,14 @@
-import {
-  RatioMissingError,
-  RatioSumError,
-  Layout,
-  FlexStyle,
-  Context,
-  BoundingBox,
-  removeMargins
-} from "..";
 import { sum } from "lodash";
-import { FlexItem } from "./flex-item";
-import { toFixed } from "../utils";
+import {
+  BoundingBox,
+  Context,
+  FlexStyle,
+  Layout,
+  removeMargins
+} from "../../base";
+import { RatioMissingError, RatioSumError } from "../../errors";
+import { toFixed } from "../../utils";
+import { FlexItem } from "./item";
 
 /**
  * Creates a row that draws columns based on the ratio passed

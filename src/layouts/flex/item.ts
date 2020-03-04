@@ -1,4 +1,4 @@
-import { BoundingBox, Context, Element, FlexFloat } from "../base";
+import { BoundingBox, Context, Element, FlexFloat } from "../../base";
 /**
  * This is a wrapper around element to allow configuration for flex
  * and interprete it for the calculation of width and height
