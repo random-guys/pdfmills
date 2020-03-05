@@ -16,7 +16,7 @@ import {
   Padding,
   Paragraph
 } from "./elements";
-import { AutoFlex, Block, Flex, FlexItem, RatioFlex, Table } from "./layouts";
+import { Block, Flex, FlexItem, RatioFlex, Table } from "./layouts";
 import { ColorValue, CSSMargins, FontStyle } from "./utils";
 
 export interface RowParams {
