@@ -1,9 +1,10 @@
 import { BoundingBox, Context, Element } from "../base";
 import { CSSMargins, Margins, toEnglish } from "../utils";
+import { removeMargins } from "../base/bounding-box";
 
 export class Padding implements Element {
   private margins: Margins;
-  constructor(cssMargins: CSSMargins, private element: Element) {
+  constructor(private cssMargins: CSSMargins, private element: Element) {
     this.margins = toEnglish(cssMargins);
   }
 
@@ -22,16 +23,11 @@ export class Padding implements Element {
   }
 
   draw(context: Context, _box: BoundingBox): void {
-    const elementWidth = this.element.width(context, _box);
-    const elementHeight = this.element.height(context, _box);
-
-    const elBox: BoundingBox = {
+    const marginalized = removeMargins(_box, this.cssMargins);
+    this.element.draw(context, {
+      ...marginalized,
       x: _box.x + this.margins.left,
-      y: _box.y + this.margins.top,
-      width: elementWidth - (this.margins.left + this.margins.right),
-      height: elementHeight - (this.margins.top + this.margins.bottom)
-    };
-
-    this.element.draw(context, elBox);
+      y: _box.y + this.margins.top
+    });
   }
 }
