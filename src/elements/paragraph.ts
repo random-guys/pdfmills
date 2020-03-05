@@ -18,7 +18,7 @@ export class Paragraph implements Element {
 
   width(context: Context, box: BoundingBox): number {
     return context.withFont(this.style, () => {
-      return Math.floor(
+      return Math.ceil(
         context.raw.widthOfString(this.text, {
           width: box.width,
           height: box.height
@@ -29,7 +29,7 @@ export class Paragraph implements Element {
 
   height(context: Context, box: BoundingBox): number {
     return context.withFont(this.style, () => {
-      return Math.floor(
+      return Math.ceil(
         context.raw.heightOfString(this.text, {
           width: box.width,
           height: box.height
