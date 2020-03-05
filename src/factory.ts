@@ -1,22 +1,23 @@
 import {
-  Element,
-  FlexStyle,
-  FlexFloat,
-  ColorValue,
-  ElementBackground,
   BlockStyle,
-  Layout,
   Context,
-  Renderer,
-  FlexItem,
-  RatioFlex,
-  Flex,
+  Element,
+  FlexFloat,
+  FlexStyle,
+  ImageStyle,
+  Layout,
+  Renderer
+} from "./base";
+import {
   Background,
-  CSSMargins,
+  ElementBackground,
+  Image,
+  LineBreak,
   Padding,
-  Table,
-  Block
-} from "..";
+  Paragraph
+} from "./elements";
+import { Block, Flex, FlexItem, RatioFlex, Table } from "./layouts";
+import { ColorValue, CSSMargins, FontStyle } from "./utils";
 
 export interface RowParams {
   style: FlexStyle;
@@ -82,6 +83,34 @@ export function table(style: BlockStyle, ...rows: Layout[]) {
  */
 export function div(style: BlockStyle, ...elements: Element[]) {
   return new Block(style, elements);
+}
+
+/**
+ * Factory function for images
+ * @param src path to the source image. For the sake of everyone involved please use an
+ * absolute path
+ * @param style configuration for the image
+ */
+export function img(src: string, style: ImageStyle) {
+  return new Image(src, style);
+}
+
+/**
+ * Factory function to create a new line break
+ * @param height height of vertical space in px
+ */
+export function br(height: number) {
+  return new LineBreak({ height });
+}
+
+/**
+ * Factory function for `Paragraph`
+ * @param text string to be written
+ * @param style font and color to use. Note that the font and font
+ * size affect the `real` width and height of the text element
+ */
+export function p(text: string, style?: FontStyle) {
+  return new Paragraph(text, style);
 }
 
 /**

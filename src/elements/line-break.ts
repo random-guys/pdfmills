@@ -20,11 +20,3 @@ export class LineBreak implements Element {
 
   draw() {}
 }
-
-/**
- * Factory function to create a new line break
- * @param height height of vertical space in px
- */
-export function br(height: number) {
-  return new LineBreak({ height });
-}

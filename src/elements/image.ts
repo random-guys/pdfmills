@@ -26,13 +26,3 @@ export class Image implements Element {
     });
   }
 }
-
-/**
- * Factory function for images
- * @param src path to the source image. For the sake of everyone involved please use an
- * absolute path
- * @param style configuration for the image
- */
-export function img(src: string, style: ImageStyle) {
-  return new Image(src, style);
-}

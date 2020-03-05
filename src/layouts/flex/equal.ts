@@ -3,34 +3,32 @@ import {
   Context,
   FlexStyle,
   Layout,
-  removeMargins,
-  ItemWidthError,
-  InvalidItemError
-} from "..";
-import { FlexItem } from "./flex-item";
+  removeMargins
+} from "../../base";
+import { FlexItem } from "./item";
 
-export class Flex implements Layout {
-  constructor(private style: FlexStyle, private items: FlexItem[]) {
-    items.forEach(it => {
-      if (!(it instanceof FlexItem)) throw new InvalidItemError();
-      if (!it.itemWidth) throw new ItemWidthError();
-    });
-  }
+/**
+ * Creates a row that draws columns giving them equal spacing
+ */
+export class EqualFlex implements Layout {
+  constructor(private style: FlexStyle, private items: FlexItem[]) {}
 
   width(_context: Context, box: BoundingBox) {
     return box.width;
   }
 
   height(context: Context, box: BoundingBox) {
-    return Math.max(
-      ...this.items.map(i => i.height(context, { ...box, width: i.itemWidth }))
+    // we must factor in the width if the individual items when getting their heigth
+    const width = box.width / this.items.length;
+    return Math.floor(
+      Math.max(...this.items.map(i => i.height(context, { ...box, width })))
     );
   }
 
   draw(context: Context, box: BoundingBox) {
     const boxes = this.boxes(context, { ...box });
 
-    this.style?.background?.draw(context, box);
+    this?.style?.background?.draw(context, box);
 
     this.items.forEach((i, c) => {
       i.draw(context, boxes[c]);
@@ -40,13 +38,14 @@ export class Flex implements Layout {
   boxes(context: Context, box: BoundingBox) {
     box = removeMargins(box, this.style.margin);
 
+    const defaultWidth = box.width / this.items.length;
     let originalWidth = 0;
     let floatItemCount = 0;
     let floatSpace = 0;
 
     // check which margins the item has.
     this.items.forEach(i => {
-      originalWidth += i.itemWidth;
+      originalWidth += defaultWidth;
 
       // this item has a left margin
       if (i.flexFloat.includes("left")) floatItemCount++;
@@ -63,7 +62,7 @@ export class Flex implements Layout {
     let x = box.x;
 
     for (const i of this.items) {
-      const width = i.itemWidth;
+      const width = defaultWidth;
       const height = this.height(context, { ...box, width });
 
       // move the box to the left of the FloatSpace
