@@ -17,7 +17,7 @@ export class FlexItem implements Element {
   ) {}
 
   width(context: Context, box: BoundingBox): number {
-    return this.element.width(context, box);
+    return this.itemWidth ?? this.element.width(context, box);
   }
 
   height(context: Context, box: BoundingBox): number {
