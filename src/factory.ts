@@ -13,9 +13,10 @@ import {
   ElementBackground,
   Image,
   LineBreak,
+  Padding,
   Paragraph
 } from "./elements";
-import { Block, Flex, FlexItem, Padding, RatioFlex, Table } from "./layouts";
+import { AutoFlex, Block, Flex, FlexItem, RatioFlex, Table } from "./layouts";
 import { ColorValue, CSSMargins, FontStyle } from "./utils";
 
 export interface RowParams {
