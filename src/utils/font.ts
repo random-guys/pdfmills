@@ -11,6 +11,8 @@ export interface FontStyle {
   fontSize?: number;
   fontFamily?: string;
   fontColor?: ColorValue;
+  letterSpacing?: number;
+  lineHeight?: number;
 }
 
 /**
@@ -30,4 +32,6 @@ export function switchFont(doc: PDFKit.PDFDocument, config: FontStyle) {
   if (config.fontFamily) doc.font(config.fontFamily);
   if (config.fontSize) doc.fontSize(config.fontSize);
   if (config.fontColor) doc.fillColor(getRGB(config.fontColor));
+  if (config.lineHeight && config.lineHeight >= config.fontSize)
+    doc.lineGap(config.lineHeight - config.fontSize);
 }
