@@ -19,7 +19,7 @@ export class Block implements Layout {
   }
 
   height(context: Context, box: BoundingBox): number {
-    return Math.floor(sumBy(this.elements, e => e.height(context, box)));
+    return Math.ceil(sumBy(this.elements, e => e.height(context, box)));
   }
 
   draw(context: Context, box: BoundingBox): void {

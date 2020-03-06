@@ -29,7 +29,7 @@ export class RatioFlex implements Layout {
 
   height(context: Context, box: BoundingBox) {
     const ratioMap = this.getRatioMap(box);
-    return Math.floor(
+    return Math.ceil(
       Math.max(
         ...this.items.map((item, i) =>
           item.height(context, { ...box, width: ratioMap[i] })

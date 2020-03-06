@@ -20,7 +20,7 @@ export class EqualFlex implements Layout {
   height(context: Context, box: BoundingBox) {
     // we must factor in the width if the individual items when getting their heigth
     const width = box.width / this.items.length;
-    return Math.floor(
+    return Math.ceil(
       Math.max(...this.items.map(i => i.height(context, { ...box, width })))
     );
   }
