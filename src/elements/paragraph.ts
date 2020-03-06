@@ -39,10 +39,11 @@ export class Paragraph implements Element {
   }
 
   draw(context: Context, box: BoundingBox): void {
-    const textOptions = {
+    const textOptions: PDFKit.Mixins.TextOptions = {
       width: box.width,
       height: box.height,
-      align: this.style.align
+      align: this.style.align,
+      characterSpacing: this.style.letterSpacing
     };
     context.withFont(this.style, () => {
       return context.raw.text(this.text, box.x, box.y, textOptions);
