@@ -16,37 +16,35 @@ export class Paragraph implements Element {
     private style: FontStyle = { align: "left" }
   ) {}
 
+  protected textOptions(box: BoundingBox): PDFKit.Mixins.TextOptions {
+    return {
+      width: box.width,
+      height: box.height,
+      align: this.style.align,
+      characterSpacing: this.style.letterSpacing
+    };
+  }
+
   width(context: Context, box: BoundingBox): number {
     return context.withFont(this.style, () => {
-      return Math.ceil(
-        context.raw.widthOfString(this.text, {
-          width: box.width,
-          height: box.height
-        })
+      const width = Math.ceil(
+        context.raw.widthOfString(this.text, this.textOptions(box))
       );
+      return width;
     });
   }
 
   height(context: Context, box: BoundingBox): number {
     return context.withFont(this.style, () => {
       return Math.ceil(
-        context.raw.heightOfString(this.text, {
-          width: box.width,
-          height: box.height
-        })
+        context.raw.heightOfString(this.text, this.textOptions(box))
       );
     });
   }
 
   draw(context: Context, box: BoundingBox): void {
-    const textOptions: PDFKit.Mixins.TextOptions = {
-      width: box.width,
-      height: box.height,
-      align: this.style.align,
-      characterSpacing: this.style.letterSpacing
-    };
     context.withFont(this.style, () => {
-      return context.raw.text(this.text, box.x, box.y, textOptions);
+      return context.raw.text(this.text, box.x, box.y, this.textOptions(box));
     });
   }
 }
