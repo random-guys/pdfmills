@@ -1,5 +1,5 @@
 import { Drawable } from "./drawable";
-import { BoundingBox } from "./bounding-box";
+import { BoundingBox } from "./boundingBox";
 import { Context } from "./context";
 
 /**

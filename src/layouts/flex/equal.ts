@@ -1,8 +1,8 @@
 import {
   BoundingBox,
   Context,
+  Element,
   FlexStyle,
-  Layout,
   removeMargins
 } from "../../base";
 import { FlexItem } from "./item";
@@ -10,7 +10,7 @@ import { FlexItem } from "./item";
 /**
  * Creates a row that draws columns giving them equal spacing
  */
-export class EqualFlex implements Layout {
+export class EqualFlex implements Element {
   constructor(private style: FlexStyle, private items: FlexItem[]) {}
 
   width(_context: Context, box: BoundingBox) {
@@ -35,7 +35,7 @@ export class EqualFlex implements Layout {
     });
   }
 
-  boxes(context: Context, box: BoundingBox) {
+  private boxes(context: Context, box: BoundingBox) {
     box = removeMargins(box, this.style.margin);
 
     const defaultWidth = box.width / this.items.length;

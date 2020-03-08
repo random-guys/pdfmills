@@ -1,12 +1,13 @@
 import {
   BlockStyle,
   Context,
+  ContextParams,
   Element,
   FlexFloat,
   FlexStyle,
   ImageStyle,
-  Layout,
-  Renderer
+  Renderer,
+  Renderable
 } from "./base";
 import {
   Background,
@@ -87,7 +88,7 @@ export function imgBg(src: string) {
 }
 
 /**
- *
+ * Add margins to an element
  * @param margins CSS Margins
  * @param element The element being wrapped
  */
@@ -96,12 +97,21 @@ export function pad(margins: CSSMargins, element: Element) {
 }
 
 /**
- * Factory function for creating a new block layout.
- * @param style background and margin for the block
- * @param rows list of elements to layout
+ * Factory function for creating tables
+ * @param header table header
+ * @param data items to put in rows
+ * @param mapper converts an item to a row element
  */
-export function table(style: BlockStyle, ...rows: Layout[]) {
-  return new Table(style, rows);
+export function table<T>(
+  header: Element,
+  data: T[],
+  mapper: (t: T) => Element
+) {
+  return new Table({
+    header,
+    data,
+    rowMapper: mapper
+  });
 }
 
 /**
@@ -156,8 +166,16 @@ export function p(text: string, style?: FontStyle) {
  * needed to draw items and actually draws them.
  *
  * @param context the global state of the PDF Document
- * @param elements list of elements to layout
+ * @param renderables list of elements or layouts to render
  */
-export function render(context: Context, elements: Element[]) {
-  return new Renderer(context).render(elements);
+export function render(context: Context, renderables: Renderable[]) {
+  return new Renderer(context).render(renderables);
+}
+
+/**
+ * Creates a new Context
+ * @param params context config params
+ */
+export function configure(params: ContextParams) {
+  return new Context(params);
 }

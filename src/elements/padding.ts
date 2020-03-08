@@ -1,6 +1,6 @@
 import { BoundingBox, Context, Element } from "../base";
 import { CSSMargins, Margins, toEnglish } from "../utils";
-import { removeMargins } from "../base/bounding-box";
+import { removeMargins } from "../base/boundingBox";
 
 export class Padding implements Element {
   private margins: Margins;

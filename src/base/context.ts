@@ -8,7 +8,7 @@ import {
   getRGB,
   ColorValue
 } from "../utils";
-import { pageBounds, fullPageBounds } from "./bounding-box";
+import { pageBounds, fullPageBounds } from "./boundingBox";
 import { Drawable } from "./drawable";
 
 /**
@@ -49,6 +49,10 @@ export class Context {
 
   addPage() {
     this.raw.addPage({ size: "A4", margins: this.margins });
+  }
+
+  onNewPage(fn: () => void) {
+    this.raw.on("pageAdded", fn);
   }
 
   /**

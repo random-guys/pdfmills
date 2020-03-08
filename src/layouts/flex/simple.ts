@@ -1,14 +1,14 @@
 import {
   BoundingBox,
   Context,
+  Element,
   FlexStyle,
-  Layout,
   removeMargins
 } from "../../base";
 import { InvalidItemError, ItemWidthError } from "../../errors";
 import { FlexItem } from "./item";
 
-export class Flex implements Layout {
+export class Flex implements Element {
   constructor(private style: FlexStyle, private items: FlexItem[]) {
     items.forEach(it => {
       if (!(it instanceof FlexItem)) throw new InvalidItemError();
@@ -36,7 +36,7 @@ export class Flex implements Layout {
     });
   }
 
-  boxes(context: Context, box: BoundingBox) {
+  private boxes(context: Context, box: BoundingBox) {
     box = removeMargins(box, this.style.margin);
 
     let originalWidth = 0;
