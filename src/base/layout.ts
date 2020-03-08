@@ -1,4 +1,3 @@
-import { BoundingBox } from "./bounding-box";
 import { Element } from "./element";
 
 /**

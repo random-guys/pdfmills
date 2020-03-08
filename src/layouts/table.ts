@@ -1,59 +1,35 @@
-import { BlockStyle, Layout, Context, BoundingBox, removeMargins } from "..";
+import { Element, MultiPageLayout } from "../base";
+
+export interface TableConfig<T> {
+  /**
+   * the header of the table. This will be draw on each new page
+   */
+  header?: Element;
+  /**
+   * the footer of the table. Like the header, this will be drawn on new
+   * pages
+   */
+  footer?: Element;
+  /**
+   * creates a row for individual data items
+   */
+  rowMapper: (data: T) => Element;
+  /**
+   * data to render on the table
+   */
+  data: T[];
+}
 
 /**
  * A table is basically a `block`without a definite height
  */
-export class Table implements Layout {
-  /**
-   *
-   * @param style the block style
-   * @param body the rows of the table
-   */
-  constructor(private style: BlockStyle, private body: Layout[]) {}
+export class Table<T> implements MultiPageLayout {
+  footer = null;
+  multipage: true;
 
-  boxes(context: Context, box: BoundingBox): BoundingBox[] {
-    box = removeMargins(box, this.style.margin);
+  constructor(private config: TableConfig<T>) {}
 
-    const boxes: BoundingBox[] = [];
-
-    let y = box.y;
-    let remaningHeight = box.height;
-
-    for (const el of this.body) {
-      const height = el.height(context, {
-        x: box.x,
-        y,
-        width: box.width,
-        height: remaningHeight
-      });
-
-      boxes.push({ ...box, y, height });
-
-      y += height;
-      remaningHeight -= height;
-    }
-
-    return boxes;
-  }
-
-  width(_: Context, box: BoundingBox): number {
-    return box.width;
-  }
-
-  height(_: Context, box: BoundingBox): number {
-    return box.height;
-  }
-
-  rows() {
-    return this.body;
-  }
-
-  draw(context: Context, box: BoundingBox): void {
-    const boxes = this.boxes(context, box);
-
-    // draw the table body
-    this.body.forEach((el, i) => {
-      el.draw(context, boxes[i]);
-    });
+  children(): Element[] {
+    return [];
   }
 }
