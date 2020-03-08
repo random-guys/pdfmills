@@ -1,4 +1,4 @@
-export * from "./bounding-box";
+export * from "./boundingBox";
 export * from "./context";
 export * from "./drawable";
 export * from "./element";

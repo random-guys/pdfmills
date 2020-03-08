@@ -1,12 +1,11 @@
-import { BoundingBox, Context, pageBounds } from ".";
+import { BoundingBox, pageBounds } from "./boundingBox";
+import { Context } from "./context";
 import { Element } from "./element";
 import { MultiPageLayout } from "./layout";
 
 export type Renderable = Element | MultiPageLayout;
 
 export class Renderer {
-  private box: BoundingBox;
-
   constructor(private context: Context) {}
 
   isMultipage(renderable: Renderable) {

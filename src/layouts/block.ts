@@ -1,6 +1,6 @@
 import sumBy from "lodash/sumBy";
 import { BlockStyle, BoundingBox, Context, Element } from "../base";
-import { removeMargins } from "../base/bounding-box";
+import { removeMargins } from "../base/boundingBox";
 
 /**
  * This arranges all it's element on a vertical line using the width

@@ -8,7 +8,7 @@ import {
   getRGB,
   ColorValue
 } from "../utils";
-import { pageBounds, fullPageBounds } from "./bounding-box";
+import { pageBounds, fullPageBounds } from "./boundingBox";
 import { Drawable } from "./drawable";
 
 /**
