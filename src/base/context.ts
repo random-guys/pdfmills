@@ -51,6 +51,10 @@ export class Context {
     this.raw.addPage({ size: "A4", margins: this.margins });
   }
 
+  onNewPage(fn: () => void) {
+    this.raw.on("pageAdded", fn);
+  }
+
   /**
    * Run the action using `config` font settings and reset once done. If the config
    * doesn't exist just return the action's result.

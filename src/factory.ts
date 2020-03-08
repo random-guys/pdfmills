@@ -1,12 +1,13 @@
 import {
   BlockStyle,
   Context,
+  ContextParams,
   Element,
   FlexFloat,
   FlexStyle,
   ImageStyle,
-  Layout,
-  Renderer
+  Renderer,
+  Renderable
 } from "./base";
 import {
   Background,
@@ -23,8 +24,7 @@ import {
   Flex,
   FlexBlock,
   FlexItem,
-  RatioFlex,
-  Table
+  RatioFlex
 } from "./layouts";
 import { ColorValue, CSSMargins, FontStyle } from "./utils";
 
@@ -100,9 +100,9 @@ export function pad(margins: CSSMargins, element: Element) {
  * @param style background and margin for the block
  * @param rows list of elements to layout
  */
-export function table(style: BlockStyle, ...rows: Layout[]) {
-  return new Table(style, rows);
-}
+// export function table(style: BlockStyle, ...rows: Layout[]) {
+//   return new Table(style, rows);
+// }
 
 /**
  * Factory function for creating a new block layout.
@@ -156,8 +156,16 @@ export function p(text: string, style?: FontStyle) {
  * needed to draw items and actually draws them.
  *
  * @param context the global state of the PDF Document
- * @param elements list of elements to layout
+ * @param renderables list of elements or layouts to render
  */
-export function render(context: Context, elements: Element[]) {
-  return new Renderer(context).render(elements);
+export function render(context: Context, renderables: Renderable[]) {
+  return new Renderer(context).render(renderables);
+}
+
+/**
+ * Creates a new Context
+ * @param params context config params
+ */
+export function configure(params: ContextParams) {
+  return new Context(params);
 }

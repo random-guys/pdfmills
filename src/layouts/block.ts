@@ -1,12 +1,12 @@
 import sumBy from "lodash/sumBy";
-import { BlockStyle, BoundingBox, Context, Element, Layout } from "../base";
+import { BlockStyle, BoundingBox, Context, Element } from "../base";
 import { removeMargins } from "../base/bounding-box";
 
 /**
  * This arranges all it's element on a vertical line using the width
  * of its bounding box.
  */
-export class Block implements Layout {
+export class Block implements Element {
   /**
    * Create a new block layout.
    * @param style background and margin for the block
@@ -32,7 +32,7 @@ export class Block implements Layout {
     });
   }
 
-  boxes(context: Context, box: BoundingBox): BoundingBox[] {
+  protected boxes(context: Context, box: BoundingBox): BoundingBox[] {
     box = removeMargins(box, this.style.margin);
 
     const boxes: BoundingBox[] = [];

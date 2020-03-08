@@ -2,13 +2,13 @@ import {
   BoundingBox,
   Context,
   FlexStyle,
-  Layout,
+  Element,
   removeMargins
 } from "../../base";
 import { FlexItem } from "./item";
 import { sum } from "lodash";
 
-export class AutoFlex implements Layout {
+export class AutoFlex implements Element {
   constructor(private style: FlexStyle, private items: FlexItem[]) {}
 
   width(context: Context, box: BoundingBox) {
@@ -25,7 +25,7 @@ export class AutoFlex implements Layout {
   }
 
   draw(context: Context, box: BoundingBox) {
-    const boxes = this.boxes(context, { ...box });
+    const boxes = this.boxes(context, box);
 
     this.style?.background?.draw(context, box);
 
@@ -34,7 +34,7 @@ export class AutoFlex implements Layout {
     });
   }
 
-  boxes(context: Context, box: BoundingBox) {
+  private boxes(context: Context, box: BoundingBox) {
     box = removeMargins(box, this.style.margin);
 
     const itemWidths = [];

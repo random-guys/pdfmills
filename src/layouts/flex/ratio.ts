@@ -2,8 +2,8 @@ import { sum } from "lodash";
 import {
   BoundingBox,
   Context,
+  Element,
   FlexStyle,
-  Layout,
   removeMargins
 } from "../../base";
 import { RatioMissingError, RatioSumError } from "../../errors";
@@ -13,7 +13,7 @@ import { FlexItem } from "./item";
 /**
  * Creates a row that draws columns based on the ratio passed
  */
-export class RatioFlex implements Layout {
+export class RatioFlex implements Element {
   constructor(
     private style: FlexStyle,
     private ratios: number[],
@@ -53,7 +53,7 @@ export class RatioFlex implements Layout {
     return this.ratios.map(it => toFixed((it / ratioSum) * box.width));
   }
 
-  boxes(context: Context, box: BoundingBox): BoundingBox[] {
+  private boxes(context: Context, box: BoundingBox): BoundingBox[] {
     box = removeMargins(box, this.style.margin);
 
     let originalWidth = 0;

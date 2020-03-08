@@ -1,81 +1,96 @@
-import { Element, Context, BoundingBox, pageBounds } from ".";
-import { Table } from "../layouts";
+import { BoundingBox, Context, pageBounds } from ".";
+import { Element } from "./element";
+import { MultiPageLayout } from "./layout";
+
+export type Renderable = Element | MultiPageLayout;
 
 export class Renderer {
   private box: BoundingBox;
 
-  constructor(private context: Context) {
-    this.resetMargins();
+  constructor(private context: Context) {}
+
+  isMultipage(renderable: Renderable) {
+    return (
+      renderable.hasOwnProperty("children") &&
+      typeof renderable["children"] === "function"
+    );
   }
 
-  resetMargins() {
-    this.box = pageBounds(this.context.margins);
-  }
+  render(renderables: Renderable[]) {
+    const page = pageBounds(this.context.margins);
 
-  render(elements: Element[]) {
-    const boxes: BoundingBox[] = [];
-    let y = this.box.y;
-    let remaningHeight = this.box.height;
+    let x = page.x,
+      y = page.y;
+    let width = page.width,
+      remainingHeight = page.height;
 
-    // check if the element is a table
-    for (let i = 0; i < elements.length; i++) {
-      const el = elements[i];
-      if (el instanceof Table) {
-        elements.push(...el.rows());
-        elements.splice(i, 1);
-        break;
-      }
-    }
-
-    for (const el of elements) {
-      const height = el.height(this.context, {
-        x: this.box.x,
-        y,
-        width: this.box.width,
-        height: remaningHeight
-      });
-
-      // check if we can draw the element on this page
-      if (remaningHeight - height < 0) {
-        y = this.box.y;
-        remaningHeight = this.box.height;
-      }
-
-      // prep the coordinates for drawing
-      boxes.push({ ...this.box, y, height });
-
-      // calculate the next cursor location
-      remaningHeight -= height;
+    const moveDown = (height: number) => {
       y += height;
-    }
+      remainingHeight -= height;
+    };
 
-    elements.forEach((el, i) => {
-      this.reframe(0, boxes[i].height);
+    const resetCoords = () => {
+      y = page.y;
+      remainingHeight = page.height;
+    };
 
-      // draw the element
-      el.draw(this.context, boxes[i]);
+    renderables.forEach(renderable => {
+      if (this.isMultipage(renderable)) {
+        const layout = renderable as MultiPageLayout;
+
+        if (layout.newPageElement) {
+          const height = layout.newPageElement.height(this.context, page);
+          this.context.onNewPage(() => {
+            // draw the new page element first
+            layout.newPageElement.draw(this.context, page);
+            moveDown(height);
+          });
+
+          if (height <= remainingHeight) {
+            // draw the first instance of the new page element since we are
+            // already on one
+            layout.newPageElement.draw(this.context, page);
+            moveDown(height);
+          } else {
+            // or start on a new page
+            this.context.addPage();
+            resetCoords();
+          }
+        }
+
+        // draw the multipage's children
+        const children = layout.children();
+        children.forEach(element => {
+          const height = element.height(this.context, page);
+
+          // start on a new page if there's no space left
+          if (height > remainingHeight) {
+            this.context.addPage();
+            resetCoords();
+          }
+
+          element.draw(this.context, { x, y, width, height });
+
+          // move the coords down
+          moveDown(height);
+        });
+
+        return;
+      }
+
+      const element = renderable as Element;
+      const height = element.height(this.context, page);
+
+      // start on a new page if there's no space left
+      if (height > remainingHeight) {
+        this.context.addPage();
+        resetCoords();
+      }
+
+      element.draw(this.context, { x, y, width, height });
+
+      // move the coords down
+      moveDown(height);
     });
-  }
-
-  /**
-   * Move the bounding box by the left and top bar.
-   * @param deltaX movement of the left bound
-   * @param deltaY movement of the right bound
-   */
-  reframe(deltaX: number, deltaY: number) {
-    this.box.x += deltaX;
-    this.box.width -= deltaX;
-
-    // check if the height of the new element will go out ouf bounds
-    const newHeight = this.box.height - deltaY;
-    if (newHeight < 0) {
-      this.context.addPage();
-
-      // reset the PDF file margins and the box
-      this.resetMargins();
-    }
-
-    this.box.y += deltaY;
-    this.box.height -= deltaY;
   }
 }
