@@ -33,6 +33,10 @@ export class Renderer {
       remainingHeight = page.height;
     };
 
+    const newBox = (): BoundingBox => {
+      return { x, y, width, height: remainingHeight };
+    };
+
     renderables.forEach(renderable => {
       if (this.isMultipage(renderable)) {
         const layout = renderable as MultiPageLayout;
@@ -41,14 +45,14 @@ export class Renderer {
           const height = layout.newPageElement.height(this.context, page);
           this.context.onNewPage(() => {
             // draw the new page element first
-            layout.newPageElement.draw(this.context, page);
+            layout.newPageElement.draw(this.context, newBox());
             moveDown(height);
           });
 
           if (height <= remainingHeight) {
             // draw the first instance of the new page element since we are
             // already on one
-            layout.newPageElement.draw(this.context, page);
+            layout.newPageElement.draw(this.context, newBox());
             moveDown(height);
           } else {
             // or start on a new page
@@ -68,7 +72,7 @@ export class Renderer {
             resetCoords();
           }
 
-          element.draw(this.context, { x, y, width, height });
+          element.draw(this.context, newBox());
 
           // move the coords down
           moveDown(height);
