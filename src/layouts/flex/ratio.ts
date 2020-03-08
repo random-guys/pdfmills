@@ -7,7 +7,7 @@ import {
   removeMargins
 } from "../../base";
 import { RatioMissingError, RatioSumError } from "../../errors";
-import { toFixed } from "../../utils";
+import { truncate } from "../../utils";
 import { FlexItem } from "./item";
 
 /**
@@ -27,12 +27,17 @@ export class RatioFlex implements Element {
     return box.width;
   }
 
+  itemWidths(box: BoundingBox) {
+    return this.ratios.map(x => truncate((x / 100) * box.width));
+  }
+
   height(context: Context, box: BoundingBox) {
-    const ratioMap = this.getRatioMap(box);
+    const bounds = removeMargins(box, this.style.margin);
+    const itemWidths = this.itemWidths(bounds);
     return Math.ceil(
       Math.max(
         ...this.items.map((item, i) =>
-          item.height(context, { ...box, width: ratioMap[i] })
+          item.height(context, { ...bounds, width: itemWidths[i] })
         )
       )
     );
@@ -48,53 +53,24 @@ export class RatioFlex implements Element {
     });
   }
 
-  getRatioMap(box: BoundingBox) {
-    const ratioSum = sum(this.ratios);
-    return this.ratios.map(it => toFixed((it / ratioSum) * box.width));
-  }
-
   private boxes(context: Context, box: BoundingBox): BoundingBox[] {
-    box = removeMargins(box, this.style.margin);
+    const bounds = removeMargins(box, this.style.margin);
+    const itemWidths = this.itemWidths(bounds);
 
-    let originalWidth = 0;
-    let floatItemCount = 0;
-    let floatSpace = 0;
-    const ratioMap = this.getRatioMap(box);
+    const boxes = [];
+    const y = bounds.y;
+    const height = this.height(context, bounds);
 
-    // check which margins the item has.
-    this.items.forEach((item, i) => {
-      originalWidth += ratioMap[i];
+    let x = bounds.x;
 
-      // this item has a left margin
-      if (item.flexFloat.includes("left")) floatItemCount++;
-
-      // this item has a right margin
-      if (item.flexFloat.includes("right")) floatItemCount++;
-    });
-
-    const remainingSpace = box.width - originalWidth;
-    floatSpace = remainingSpace / floatItemCount;
-
-    const boxes: BoundingBox[] = [];
-    const y = box.y;
-
-    let x = box.x;
-
-    this.items.forEach((item, i) => {
-      const width = ratioMap[i];
-      const height = this.height(context, { ...box, width });
-
-      // move the box to the left of the FloatSpace
-      if (item.flexFloat.includes("left")) x += floatSpace;
+    this.items.forEach((_, i) => {
+      const width = itemWidths[i];
 
       // this is where we are drawing the item
       boxes.push({ x, y, width, height });
 
       // offset the cursor by the item width
       x += width;
-
-      // move the box to the right with half the FloatSpace
-      if (item.flexFloat.includes("right")) x += floatSpace;
     });
 
     return boxes;
