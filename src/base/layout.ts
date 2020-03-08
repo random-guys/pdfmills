@@ -8,7 +8,7 @@ export interface MultiPageLayout {
    * Element to be drawn on each new page. This is useful for things like
    * table headers
    */
-  newPageElement?: Element;
+  readonly newPageElement?: Element;
 
   /**
    * Get all the child elements of this layout.
