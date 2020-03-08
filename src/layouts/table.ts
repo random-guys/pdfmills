@@ -4,12 +4,7 @@ export interface TableConfig<T> {
   /**
    * the header of the table. This will be draw on each new page
    */
-  header?: Element;
-  /**
-   * the footer of the table. Like the header, this will be drawn on new
-   * pages
-   */
-  footer?: Element;
+  header: Element;
   /**
    * creates a row for individual data items
    */
@@ -24,12 +19,13 @@ export interface TableConfig<T> {
  * A table is basically a `block`without a definite height
  */
 export class Table<T> implements MultiPageLayout {
-  footer = null;
-  multipage: true;
+  readonly newPageElement: Element;
 
-  constructor(private config: TableConfig<T>) {}
+  constructor(private config: TableConfig<T>) {
+    this.newPageElement = this.config.header;
+  }
 
   children(): Element[] {
-    return [];
+    return this.config.data.map(this.config.rowMapper);
   }
 }

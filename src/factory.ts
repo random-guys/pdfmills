@@ -24,7 +24,8 @@ import {
   Flex,
   FlexBlock,
   FlexItem,
-  RatioFlex
+  RatioFlex,
+  Table
 } from "./layouts";
 import { ColorValue, CSSMargins, FontStyle } from "./utils";
 
@@ -87,7 +88,7 @@ export function imgBg(src: string) {
 }
 
 /**
- *
+ * Add margins to an element
  * @param margins CSS Margins
  * @param element The element being wrapped
  */
@@ -96,13 +97,22 @@ export function pad(margins: CSSMargins, element: Element) {
 }
 
 /**
- * Factory function for creating a new block layout.
- * @param style background and margin for the block
- * @param rows list of elements to layout
+ * Factory function for creating tables
+ * @param header table header
+ * @param data items to put in rows
+ * @param mapper converts an item to a row element
  */
-// export function table(style: BlockStyle, ...rows: Layout[]) {
-//   return new Table(style, rows);
-// }
+export function table<T>(
+  header: Element,
+  data: T[],
+  mapper: (t: T) => Element
+) {
+  return new Table({
+    header,
+    data,
+    rowMapper: mapper
+  });
+}
 
 /**
  * Factory function for creating a new block layout.
