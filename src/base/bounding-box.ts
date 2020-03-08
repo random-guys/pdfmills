@@ -49,6 +49,13 @@ export function pageBounds(margins?: Margins): BoundingBox {
 }
 
 /**
+ * Create a bounding box for an entire A4 page
+ */
+export function fullPageBounds(): BoundingBox {
+  return { x: 0, y: 0, width: A4_WIDTH, height: A4_HEIGHT };
+}
+
+/**
  * Resize the box based on the given margins
  * @param box box to be resized
  * @param margins margins to use to resize
