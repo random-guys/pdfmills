@@ -41,3 +41,21 @@ export class ElementBackground implements Element {
     this.element.draw(context, box);
   }
 }
+
+/**
+ * `BackgroundImage` is the equivalent of `background-image` CSS property
+ */
+export class ImageBackground implements Drawable {
+  /**
+   * Create a new image without drawing it
+   * @param src path to the source image. For the sake of everyone involved please use an
+   * absolute path
+   */
+  constructor(private src: string) {}
+
+  draw(context: Context, box: BoundingBox): void {
+    context.raw.image(this.src, box.x, box.y, {
+      fit: [box.width, box.height]
+    });
+  }
+}

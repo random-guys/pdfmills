@@ -12,6 +12,7 @@ import {
   Background,
   ElementBackground,
   Image,
+  ImageBackground,
   LineBreak,
   Padding,
   Paragraph
@@ -75,6 +76,14 @@ export function col(
 export function bg(color: ColorValue, element?: Element) {
   if (element) return new ElementBackground(color, element);
   else return new Background(color);
+}
+
+/**
+ * Create an image background
+ * @param src path to the image
+ */
+export function imgBg(src: string) {
+  return new ImageBackground(src);
 }
 
 /**
