@@ -11,8 +11,7 @@ export class Renderer {
 
   isMultipage(renderable: Renderable) {
     return (
-      renderable.hasOwnProperty("children") &&
-      typeof renderable["children"] === "function"
+      renderable["children"] && typeof renderable["children"] === "function"
     );
   }
 
