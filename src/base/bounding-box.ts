@@ -35,7 +35,7 @@ export function verticalSpace(box: BoundingBox) {
 
 /**
  * Create a bounding box for an entire A4 page taking account
- * of the marginsif present.
+ * of the margins if present.
  * @param margins page margins
  */
 export function pageBounds(margins?: Margins): BoundingBox {

@@ -12,7 +12,7 @@ export class Block implements Layout {
    * @param style background and margin for the block
    * @param elements list of elements to layout
    */
-  constructor(private style: BlockStyle, private elements: Element[]) {}
+  constructor(protected style: BlockStyle, protected elements: Element[]) {}
 
   width(_context: Context, box: BoundingBox): number {
     return box.width;
