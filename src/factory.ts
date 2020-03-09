@@ -1,23 +1,23 @@
-import { Context, ContextParams, Element, Renderer, Renderable } from "./base";
+import { Context, ContextParams, Element, Renderable, Renderer } from "./base";
 import {
   Background,
   ElementBackground,
   Image,
   ImageBackground,
+  ImageStyle,
   LineBreak,
   Padding,
-  Paragraph,
-  ImageStyle
+  Paragraph
 } from "./elements";
 import {
   AutoFlex,
   Block,
   FixedFlex,
   FlexBlock,
+  FlexFloat,
   FlexItem,
   RatioFlex,
-  Table,
-  FlexFloat
+  Table
 } from "./layouts";
 import { ColorValue, CSSMargins, FontStyle } from "./utils";
 
@@ -58,7 +58,8 @@ export function col(
 }
 
 /**
- *
+ * Create a background drawable or give an element
+ * some background
  * @param color the background color
  */
 export function bg(color: ColorValue, element?: Element) {

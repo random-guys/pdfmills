@@ -50,7 +50,12 @@ export class Paragraph implements Element {
     let y = box.y;
     if (this.style.verticalAlignment) {
       const height = this.height(context, box);
-      y += Math.floor((box.height - height) / 2);
+
+      // there seems to be a bug in pdfkit the makes height bigger
+      // than what it would be normally
+      if (height <= box.height) {
+        y += Math.floor((box.height - height) / 2);
+      }
     }
 
     context.withFont(this.style, () => {
