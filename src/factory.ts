@@ -1,19 +1,10 @@
-import {
-  BlockStyle,
-  Context,
-  ContextParams,
-  Element,
-  FlexFloat,
-  FlexStyle,
-  ImageStyle,
-  Renderer,
-  Renderable
-} from "./base";
+import { Context, ContextParams, Element, Renderable, Renderer } from "./base";
 import {
   Background,
   ElementBackground,
   Image,
   ImageBackground,
+  ImageStyle,
   LineBreak,
   Padding,
   Paragraph
@@ -21,8 +12,9 @@ import {
 import {
   AutoFlex,
   Block,
-  Flex,
+  FixedFlex,
   FlexBlock,
+  FlexFloat,
   FlexItem,
   RatioFlex,
   Table
@@ -30,31 +22,26 @@ import {
 import { ColorValue, CSSMargins, FontStyle } from "./utils";
 
 export interface RowParams {
-  style: FlexStyle;
   ratios?: number[];
   elements: FlexItem[];
 }
 
 /**
  * Factory function for creating a new flex layout.
- * @param style background and margin for the row
  * @param elements list of elements to layout with their flex configuration
  */
 export function row(params: RowParams) {
   if (params.ratios) {
-    return new RatioFlex(params.style, params.ratios, params.elements);
-  } else return new Flex(params.style, params.elements);
+    return new RatioFlex(params.ratios, params.elements);
+  } else return new FixedFlex(params.elements);
 }
 
 /**
  * Factory function for creating a new flex layout with automatic width.
- * @param style background and margin for the row
  * @param elements list of elements to layout with their flex configuration
  */
-export function autoRow(params: RowParams) {
-  if (params.ratios) {
-    return new RatioFlex(params.style, params.ratios, params.elements);
-  } else return new AutoFlex(params.style, params.elements);
+export function autoRow(elements: FlexItem[]) {
+  return new AutoFlex(elements);
 }
 
 /**
@@ -64,14 +51,15 @@ export function autoRow(params: RowParams) {
  */
 export function col(
   element: Element,
-  float: FlexFloat[] = ["left", "right"],
+  float: FlexFloat[] = ["none"],
   itemWidth?: number
 ) {
   return new FlexItem(element, float, itemWidth);
 }
 
 /**
- *
+ * Create a background drawable or give an element
+ * some background
  * @param color the background color
  */
 export function bg(color: ColorValue, element?: Element) {
@@ -116,21 +104,19 @@ export function table<T>(
 
 /**
  * Factory function for creating a new block layout.
- * @param style background and margin for the block
  * @param elements list of elements to layout
  */
-export function div(style: BlockStyle, ...elements: Element[]) {
-  return new Block(style, elements);
+export function div(elements: Element[]) {
+  return new Block(elements);
 }
 
 /**
  * Factory function for creating a new block layout that can reside
  * in an `AutoFlex` layout.
- * @param style background and margin for the block
  * @param elements list of elements to layout
  */
-export function flexDiv(style: BlockStyle, ...elements: Element[]) {
-  return new FlexBlock(style, elements);
+export function flexDiv(elements: Element[]) {
+  return new FlexBlock(elements);
 }
 
 /**

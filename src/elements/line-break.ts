@@ -1,4 +1,11 @@
-import { BoundingBox, Context, Element, LineBreakStyle } from "../base";
+import { BoundingBox, Context, Element } from "../base";
+
+export interface LineBreakStyle {
+  /**
+   * height of space to leave
+   */
+  height: number;
+}
 
 /**
  * `LineBreak` is just vertical space between block elements.

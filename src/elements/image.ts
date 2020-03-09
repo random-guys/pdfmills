@@ -1,4 +1,15 @@
-import { BoundingBox, Context, Element, ImageStyle } from "../base";
+import { BoundingBox, Context, Element } from "../base";
+
+export interface ImageStyle {
+  /**
+   * width of image
+   */
+  width: number;
+  /**
+   * Height of image
+   */
+  height: number;
+}
 
 /**
  * `Image` is the equivalent of `<img />`

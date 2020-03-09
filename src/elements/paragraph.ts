@@ -1,3 +1,4 @@
+import memoize from "memoizee";
 import { BoundingBox, Context, Element } from "../base";
 import { FontStyle } from "../utils";
 
@@ -14,7 +15,10 @@ export class Paragraph implements Element {
   constructor(
     private text: string,
     private style: FontStyle = { align: "left" }
-  ) {}
+  ) {
+    this.width = memoize(this.width.bind(this));
+    this.height = memoize(this.height.bind(this));
+  }
 
   protected textOptions(box: BoundingBox): PDFKit.Mixins.TextOptions {
     return {
@@ -43,13 +47,19 @@ export class Paragraph implements Element {
   }
 
   draw(context: Context, box: BoundingBox): void {
+    let y = box.y;
     if (this.style.verticalAlignment) {
       const height = this.height(context, box);
-      box.y += Math.floor((box.height - height) / 2);
+
+      // there seems to be a bug in pdfkit the makes height bigger
+      // than what it would be normally
+      if (height <= box.height) {
+        y += Math.floor((box.height - height) / 2);
+      }
     }
 
     context.withFont(this.style, () => {
-      return context.raw.text(this.text, box.x, box.y, this.textOptions(box));
+      return context.raw.text(this.text, box.x, y, this.textOptions(box));
     });
   }
 }

@@ -1,4 +1,5 @@
-import { BoundingBox, Context, Element, FlexFloat } from "../../base";
+import { BoundingBox, Context, Element } from "../../base";
+import { FlexFloat } from "./style";
 /**
  * This is a wrapper around element to allow configuration for flex
  * and interprete it for the calculation of width and height
@@ -12,7 +13,7 @@ export class FlexItem implements Element {
    */
   constructor(
     private element: Element,
-    readonly flexFloat: FlexFloat[] = ["left", "right"],
+    readonly flexFloat: FlexFloat[] = ["none"],
     readonly itemWidth?: number
   ) {}
 

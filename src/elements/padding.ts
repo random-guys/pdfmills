@@ -22,12 +22,12 @@ export class Padding implements Element {
     );
   }
 
-  draw(context: Context, _box: BoundingBox): void {
-    const marginalized = removeMargins(_box, this.cssMargins);
+  draw(context: Context, box: BoundingBox): void {
+    const marginalized = removeMargins(box, this.cssMargins);
     this.element.draw(context, {
       ...marginalized,
-      x: _box.x + this.margins.left,
-      y: _box.y + this.margins.top
+      x: box.x + this.margins.left,
+      y: box.y + this.margins.top
     });
   }
 }
