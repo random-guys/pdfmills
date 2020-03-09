@@ -58,7 +58,7 @@ export function autoRow(params: RowParams) {
  */
 export function col(
   element: Element,
-  float: FlexFloat[] = ["left", "right"],
+  float: FlexFloat[] = ["none"],
   itemWidth?: number
 ) {
   return new FlexItem(element, float, itemWidth);

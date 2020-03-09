@@ -13,7 +13,7 @@ export class FlexItem implements Element {
    */
   constructor(
     private element: Element,
-    readonly flexFloat: FlexFloat[] = ["left", "right"],
+    readonly flexFloat: FlexFloat[] = ["none"],
     readonly itemWidth?: number
   ) {}
 
