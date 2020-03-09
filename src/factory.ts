@@ -12,7 +12,7 @@ import {
 import {
   AutoFlex,
   Block,
-  Flex,
+  FixedFlex,
   FlexBlock,
   FlexItem,
   RatioFlex,
@@ -33,7 +33,7 @@ export interface RowParams {
 export function row(params: RowParams) {
   if (params.ratios) {
     return new RatioFlex(params.ratios, params.elements);
-  } else return new Flex(params.elements);
+  } else return new FixedFlex(params.elements);
 }
 
 /**

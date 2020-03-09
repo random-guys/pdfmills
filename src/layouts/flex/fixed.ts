@@ -1,14 +1,13 @@
 import memoize from "memoizee";
 import { BoundingBox, Context, Element } from "../../base";
-import { InvalidItemError, ItemWidthError } from "../../errors";
+import { ItemWidthError } from "../../errors";
 import { FlexItem } from "./item";
 
-export class Flex implements Element {
+export class FixedFlex implements Element {
   constructor(private items: FlexItem[]) {
-    items.forEach(it => {
-      if (!(it instanceof FlexItem)) throw new InvalidItemError();
-      if (!it.itemWidth) throw new ItemWidthError();
-    });
+    if (items.some(it => !it.itemWidth)) {
+      throw new ItemWidthError();
+    }
 
     this.height = memoize(this.height.bind(this));
   }
@@ -51,11 +50,11 @@ export class Flex implements Element {
 
     const boxes: BoundingBox[] = [];
     const y = box.y;
+    const height = this.height(context, box);
     let x = box.x;
 
     for (const i of this.items) {
       const width = i.itemWidth;
-      const height = this.height(context, { ...box, width });
 
       // move the box to the left of the FloatSpace
       if (i.flexFloat.includes("left")) x += floatSpace;
