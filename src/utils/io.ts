@@ -1,4 +1,4 @@
-import { createWriteStream } from 'fs';
+import { createWriteStream } from "fs";
 /**
  * Save a pdf document.
  * @param doc PDFKit instance

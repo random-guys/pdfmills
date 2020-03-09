@@ -1,16 +1,17 @@
-import { Context } from './context';
-import { BoundingBox } from './bounding-box';
-import { Element } from './element';
+import { Element } from "./element";
 
 /**
- * A layout is an element that can generate a list of
- * bounding boxes.
+ * This is a layout that can span multiple pages
  */
-export interface Layout extends Element {
+export interface MultiPageLayout {
   /**
-   * Calculate bounding boxes for all its elements
-   * @param context source of document state
-   * @param box boundaries of the layout
+   * Element to be drawn on each new page. This is useful for things like
+   * table headers
    */
-  boxes(context: Context, box: BoundingBox): BoundingBox[];
+  readonly newPageElement?: Element;
+
+  /**
+   * Get all the child elements of this layout.
+   */
+  children(): Element[];
 }

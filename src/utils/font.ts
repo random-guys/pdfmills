@@ -1,23 +1,27 @@
 /**
- * Either RGB or a single value x as all RGB values
+ * Either a single value x as all RGB values or normal PDFKit color values
  */
-export type ColorValue = [number, number, number] | number;
+export type ColorValue = number | PDFKit.Mixins.ColorValue;
 
 /**
  * An object to bring together PDFKit's font settings
  */
-export interface FontConfig {
-  font?: string;
+export interface FontStyle {
+  align?: "center" | "justify" | "left" | "right";
   fontSize?: number;
-  color?: ColorValue;
+  fontFamily?: string;
+  fontColor?: ColorValue;
+  letterSpacing?: number;
+  lineHeight?: number;
+  verticalAlignment?: boolean;
 }
 
 /**
- * Convert pdfmills `ColorValue` to RGB array
+ * Convert single digit color value to RGB
  * @param color pdfmills color
  */
-export function getRGB(color: ColorValue): [number, number, number] {
-  return Array.isArray(color) ? color : [color, color, color];
+export function getRGB(color: ColorValue): PDFKit.Mixins.ColorValue {
+  return typeof color === "number" ? [color, color, color] : color;
 }
 
 /**
@@ -25,8 +29,10 @@ export function getRGB(color: ColorValue): [number, number, number] {
  * @param doc PDFKit document
  * @param config pdfmills `FontConfig`
  */
-export function switchFont(doc: PDFKit.PDFDocument, config: FontConfig) {
-  if (config.font) doc.font(config.font);
-  if (config.font) doc.fontSize(config.fontSize);
-  if (config.color) doc.fillColor(getRGB(config.color));
+export function switchFont(doc: PDFKit.PDFDocument, config: FontStyle) {
+  if (config.fontFamily) doc.font(config.fontFamily);
+  if (config.fontSize) doc.fontSize(config.fontSize);
+  if (config.fontColor) doc.fillColor(getRGB(config.fontColor));
+  if (config.lineHeight && config.lineHeight >= config.fontSize)
+    doc.lineGap(config.lineHeight - config.fontSize);
 }

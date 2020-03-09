@@ -1,6 +1,6 @@
-import { Drawable } from './drawable';
-import { BoundingBox } from './bounding-box';
-import { Context } from './context';
+import { Drawable } from "./drawable";
+import { BoundingBox } from "./boundingBox";
+import { Context } from "./context";
 
 /**
  * This is drawable that has width and height, such that

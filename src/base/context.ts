@@ -1,12 +1,15 @@
-import PDFDocument from 'pdfkit';
+import PDFDocument from "pdfkit";
 import {
   CSSMargins,
-  FontConfig,
+  FontStyle,
   Margins,
   switchFont,
-  toEnglish
-} from '../utils';
-import { BoundingBox, pageBounds } from './bounding-box';
+  toEnglish,
+  getRGB,
+  ColorValue
+} from "../utils";
+import { pageBounds, fullPageBounds } from "./boundingBox";
+import { Drawable } from "./drawable";
 
 /**
  * This is a state manager for a PDFKit document. It helps us track the PDFKit
@@ -21,47 +24,35 @@ export class Context {
    * Established margins for the document
    */
   readonly margins: Margins;
-
-  private box: BoundingBox;
-  private defaultFont: FontConfig;
+  private defaultFont: FontStyle;
 
   /**
    * Create a new context for managing a document
    * @param margins CSS style margins
    * @param config default font configuration
    */
-  constructor(margins: CSSMargins, config: FontConfig) {
-    this.margins = toEnglish(margins);
-    this.raw = new PDFDocument({
-      size: 'A4',
-      margins: this.margins
-    });
+  constructor(params: ContextParams) {
+    this.margins = toEnglish(params.margins);
+    this.raw = new PDFDocument({ size: "A4", margins: this.margins });
 
-    this.box = pageBounds(this.margins);
+    if (params.backgroundColor) {
+      params.backgroundColor.draw(this, fullPageBounds());
 
-    switchFont(this.raw, config);
-    this.defaultFont = config;
+      this.raw.on("pageAdded", () => {
+        params.backgroundColor.draw(this, fullPageBounds());
+      });
+    }
+
+    switchFont(this.raw, params.fontStyle);
+    this.defaultFont = params.fontStyle;
   }
 
-  /**
-   * Returns the bounding box of the document where no `Element` has
-   * been `drawn`
-   */
-  bounds() {
-    return { ...this.box };
+  addPage() {
+    this.raw.addPage({ size: "A4", margins: this.margins });
   }
 
-  /**
-   * Move the bounding box by the left and top bar.
-   * @param deltaX movement of the left bound
-   * @param deltaY movement of the right bound
-   */
-  reframe(deltaX: number, deltaY: number) {
-    this.box.x += deltaX;
-    this.box.width -= deltaX;
-
-    this.box.y += deltaY;
-    this.box.height -= deltaY;
+  onNewPage(fn: () => void) {
+    this.raw.on("pageAdded", fn);
   }
 
   /**
@@ -70,14 +61,24 @@ export class Context {
    * @param config pdfmills `FontConfig`
    * @param action action to use `config`
    */
-  withFont<T>(config: FontConfig, action: () => T): T {
+  withFont<T>(config: FontStyle, action: () => T): T {
     if (!config) {
+      switchFont(this.raw, this.defaultFont);
       return action();
     }
-    switchFont(this.raw, config);
+    switchFont(this.raw, { ...this.defaultFont, ...config });
     const result = action();
     switchFont(this.raw, this.defaultFont);
 
     return result;
   }
+}
+
+/**
+ * DTO for initializing a Cotent
+ */
+export interface ContextParams {
+  backgroundColor?: Drawable;
+  fontStyle: FontStyle;
+  margins: CSSMargins;
 }
