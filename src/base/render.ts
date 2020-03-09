@@ -55,8 +55,8 @@ export class Renderer {
             moveDown(height);
           } else {
             // or start on a new page
-            this.context.addPage();
             resetCoords();
+            this.context.addPage();
           }
         }
 
@@ -67,8 +67,8 @@ export class Renderer {
 
           // start on a new page if there's no space left
           if (height > remainingHeight) {
-            this.context.addPage();
             resetCoords();
+            this.context.addPage();
           }
 
           element.draw(this.context, newBox());
@@ -85,8 +85,8 @@ export class Renderer {
 
       // start on a new page if there's no space left
       if (height > remainingHeight) {
-        this.context.addPage();
         resetCoords();
+        this.context.addPage();
       }
 
       element.draw(this.context, { x, y, width, height });
