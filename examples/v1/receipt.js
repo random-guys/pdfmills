@@ -12,7 +12,7 @@ const {
   table,
   save,
   bg
-} = require("..");
+} = require("../../dist");
 const faker = require("faker");
 const format = require("date-fns/format");
 
