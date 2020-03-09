@@ -30,44 +30,21 @@ export class EqualFlex implements Element {
   }
 
   private boxes(context: Context, box: BoundingBox) {
-    const defaultWidth = box.width / this.items.length;
-    let originalWidth = 0;
-    let floatItemCount = 0;
-    let floatSpace = 0;
-
-    // check which margins the item has.
-    this.items.forEach(i => {
-      originalWidth += defaultWidth;
-
-      // this item has a left margin
-      if (i.flexFloat.includes("left")) floatItemCount++;
-
-      // this item has a right margin
-      if (i.flexFloat.includes("right")) floatItemCount++;
-    });
-
-    const remainingSpace = box.width - originalWidth;
-    floatSpace = remainingSpace / floatItemCount;
-
-    const boxes: BoundingBox[] = [];
+    const sharedWidth = box.width / this.items.length;
+    const height = this.height(context, { ...box, width: sharedWidth });
+    const boxes = [];
     const y = box.y;
+
     let x = box.x;
 
-    for (const i of this.items) {
-      const width = defaultWidth;
-      const height = this.height(context, { ...box, width });
+    for (const _ of this.items) {
+      const width = sharedWidth;
 
-      // move the box to the left of the FloatSpace
-      if (i.flexFloat.includes("left")) x += floatSpace;
-
-      // this is where we are drawing the item
+      // this is defines the confines of the item
       boxes.push({ x, y, width, height });
 
       // offset the cursor by the item width
       x += width;
-
-      // move the box to the right with half the FloatSpace
-      if (i.flexFloat.includes("right")) x += floatSpace;
     }
 
     return boxes;
