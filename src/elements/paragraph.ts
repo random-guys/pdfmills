@@ -43,6 +43,11 @@ export class Paragraph implements Element {
   }
 
   draw(context: Context, box: BoundingBox): void {
+    if (this.style.verticalAlignment) {
+      const height = this.height(context, box);
+      box.y += Math.floor((box.height - height) / 2);
+    }
+
     context.withFont(this.style, () => {
       return context.raw.text(this.text, box.x, box.y, this.textOptions(box));
     });

@@ -13,6 +13,7 @@ export interface FontStyle {
   fontColor?: ColorValue;
   letterSpacing?: number;
   lineHeight?: number;
+  verticalAlignment?: boolean;
 }
 
 /**
