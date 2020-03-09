@@ -1,12 +1,7 @@
-import {
-  BoundingBox,
-  Context,
-  FlexStyle,
-  Element,
-  removeMargins
-} from "../../base";
-import { FlexItem } from "./item";
 import { sum } from "lodash";
+import { BoundingBox, Context, Element, removeMargins } from "../../base";
+import { FlexItem } from "./item";
+import { FlexStyle } from "./style";
 
 export class AutoFlex implements Element {
   constructor(private style: FlexStyle, private items: FlexItem[]) {}

@@ -4,3 +4,4 @@ export * from "./equal";
 export * from "./item";
 export * from "./ratio";
 export * from "./simple";
+export * from "./style";

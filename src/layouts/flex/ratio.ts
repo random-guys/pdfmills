@@ -1,14 +1,9 @@
 import { sum } from "lodash";
-import {
-  BoundingBox,
-  Context,
-  Element,
-  FlexStyle,
-  removeMargins
-} from "../../base";
+import { BoundingBox, Context, Element, removeMargins } from "../../base";
 import { RatioMissingError, RatioSumError } from "../../errors";
 import { truncate } from "../../utils";
 import { FlexItem } from "./item";
+import { FlexStyle } from "./style";
 
 /**
  * Creates a row that draws columns based on the ratio passed

@@ -1,14 +1,4 @@
-import {
-  BlockStyle,
-  Context,
-  ContextParams,
-  Element,
-  FlexFloat,
-  FlexStyle,
-  ImageStyle,
-  Renderer,
-  Renderable
-} from "./base";
+import { Context, ContextParams, Element, Renderer, Renderable } from "./base";
 import {
   Background,
   ElementBackground,
@@ -16,7 +6,8 @@ import {
   ImageBackground,
   LineBreak,
   Padding,
-  Paragraph
+  Paragraph,
+  ImageStyle
 } from "./elements";
 import {
   AutoFlex,
@@ -25,7 +16,10 @@ import {
   FlexBlock,
   FlexItem,
   RatioFlex,
-  Table
+  Table,
+  FlexStyle,
+  FlexFloat,
+  BlockStyle
 } from "./layouts";
 import { ColorValue, CSSMargins, FontStyle } from "./utils";
 

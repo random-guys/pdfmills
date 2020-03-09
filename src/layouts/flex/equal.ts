@@ -1,11 +1,6 @@
-import {
-  BoundingBox,
-  Context,
-  Element,
-  FlexStyle,
-  removeMargins
-} from "../../base";
+import { BoundingBox, Context, Element, removeMargins } from "../../base";
 import { FlexItem } from "./item";
+import { FlexStyle } from "./style";
 
 /**
  * Creates a row that draws columns giving them equal spacing

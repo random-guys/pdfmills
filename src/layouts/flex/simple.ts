@@ -1,12 +1,7 @@
-import {
-  BoundingBox,
-  Context,
-  Element,
-  FlexStyle,
-  removeMargins
-} from "../../base";
+import { BoundingBox, Context, Element, removeMargins } from "../../base";
 import { InvalidItemError, ItemWidthError } from "../../errors";
 import { FlexItem } from "./item";
+import { FlexStyle } from "./style";
 
 export class Flex implements Element {
   constructor(private style: FlexStyle, private items: FlexItem[]) {
