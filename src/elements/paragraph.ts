@@ -1,3 +1,4 @@
+import memoize from "memoizee";
 import { BoundingBox, Context, Element } from "../base";
 import { FontStyle } from "../utils";
 
@@ -14,7 +15,10 @@ export class Paragraph implements Element {
   constructor(
     private text: string,
     private style: FontStyle = { align: "left" }
-  ) {}
+  ) {
+    this.width = memoize(this.width.bind(this));
+    this.height = memoize(this.height.bind(this));
+  }
 
   protected textOptions(box: BoundingBox): PDFKit.Mixins.TextOptions {
     return {

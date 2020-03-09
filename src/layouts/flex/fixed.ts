@@ -1,14 +1,16 @@
-import { BoundingBox, Context, Element, removeMargins } from "../../base";
+import memoize from "memoizee";
+import { BoundingBox, Context, Element } from "../../base";
 import { InvalidItemError, ItemWidthError } from "../../errors";
 import { FlexItem } from "./item";
-import { FlexStyle } from "./style";
 
 export class Flex implements Element {
-  constructor(private style: FlexStyle, private items: FlexItem[]) {
+  constructor(private items: FlexItem[]) {
     items.forEach(it => {
       if (!(it instanceof FlexItem)) throw new InvalidItemError();
       if (!it.itemWidth) throw new ItemWidthError();
     });
+
+    this.height = memoize(this.height.bind(this));
   }
 
   width(_context: Context, box: BoundingBox) {
@@ -23,17 +25,12 @@ export class Flex implements Element {
 
   draw(context: Context, box: BoundingBox) {
     const boxes = this.boxes(context, { ...box });
-
-    this.style?.background?.draw(context, box);
-
     this.items.forEach((i, c) => {
       i.draw(context, boxes[c]);
     });
   }
 
   private boxes(context: Context, box: BoundingBox) {
-    box = removeMargins(box, this.style.margin);
-
     let originalWidth = 0;
     let floatItemCount = 0;
     let floatSpace = 0;

@@ -1,19 +1,6 @@
 import sumBy from "lodash/sumBy";
-import { BoundingBox, Context, Drawable, Element } from "../base";
-import { removeMargins } from "../base/boundingBox";
-import { CSSMargins } from "../utils/margin";
-
-export interface BlockStyle {
-  display: "block";
-  /**
-   * margins for this layout if any
-   */
-  margin?: CSSMargins;
-  /**
-   * background for this layout if any
-   */
-  background?: Drawable;
-}
+import memoize from "memoizee";
+import { BoundingBox, Context, Element } from "../base";
 
 /**
  * This arranges all it's element on a vertical line using the width
@@ -22,10 +9,11 @@ export interface BlockStyle {
 export class Block implements Element {
   /**
    * Create a new block layout.
-   * @param style background and margin for the block
    * @param elements list of elements to layout
    */
-  constructor(protected style: BlockStyle, protected elements: Element[]) {}
+  constructor(protected elements: Element[]) {
+    this.height = memoize(this.height.bind(this));
+  }
 
   width(_context: Context, box: BoundingBox): number {
     return box.width;

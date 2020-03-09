@@ -1,10 +1,13 @@
 import { sum } from "lodash";
-import { BoundingBox, Context, Element, removeMargins } from "../../base";
+import memoize from "memoizee";
+import { BoundingBox, Context, Element } from "../../base";
 import { FlexItem } from "./item";
-import { FlexStyle } from "./style";
 
 export class AutoFlex implements Element {
-  constructor(private style: FlexStyle, private items: FlexItem[]) {}
+  constructor(private items: FlexItem[]) {
+    this.width = memoize(this.width.bind(this));
+    this.height = memoize(this.height.bind(this));
+  }
 
   width(context: Context, box: BoundingBox) {
     return Math.max(...this.items.map(i => i.width(context, box)));

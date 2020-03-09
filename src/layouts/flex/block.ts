@@ -1,4 +1,5 @@
-import { BoundingBox, Context, removeMargins } from "../../base";
+import memoize from "memoizee";
+import { BoundingBox, Context, Element } from "../../base";
 import { Block } from "../block";
 
 /**

@@ -1,12 +1,14 @@
-import { BoundingBox, Context, Element, removeMargins } from "../../base";
+import memoize from "memoizee";
+import { BoundingBox, Context, Element } from "../../base";
 import { FlexItem } from "./item";
-import { FlexStyle } from "./style";
 
 /**
  * Creates a row that draws columns giving them equal spacing
  */
 export class EqualFlex implements Element {
-  constructor(private style: FlexStyle, private items: FlexItem[]) {}
+  constructor(private items: FlexItem[]) {
+    this.height = memoize(this.height.bind(this));
+  }
 
   width(_context: Context, box: BoundingBox) {
     return box.width;

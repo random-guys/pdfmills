@@ -1,21 +1,20 @@
 import { sum } from "lodash";
-import { BoundingBox, Context, Element, removeMargins } from "../../base";
+import memoize from "memoizee";
+import { BoundingBox, Context, Element } from "../../base";
 import { RatioMissingError, RatioSumError } from "../../errors";
 import { truncate } from "../../utils";
 import { FlexItem } from "./item";
-import { FlexStyle } from "./style";
 
 /**
  * Creates a row that draws columns based on the ratio passed
  */
 export class RatioFlex implements Element {
-  constructor(
-    private style: FlexStyle,
-    private ratios: number[],
-    private items: FlexItem[]
-  ) {
+  constructor(private ratios: number[], private items: FlexItem[]) {
     if (items.length !== ratios.length) throw new RatioMissingError();
     if (sum(this.ratios) !== 100) throw new RatioSumError();
+
+    this.height = memoize(this.height.bind(this));
+    this.itemWidths = memoize(this.itemWidths.bind(this));
   }
 
   width(_context: Context, box: BoundingBox) {
