@@ -26,36 +26,31 @@ export class RatioFlex implements Element {
   }
 
   height(context: Context, box: BoundingBox) {
-    const bounds = removeMargins(box, this.style.margin);
-    const itemWidths = this.itemWidths(bounds);
+    const itemWidths = this.itemWidths(box);
     return Math.ceil(
       Math.max(
         ...this.items.map((item, i) =>
-          item.height(context, { ...bounds, width: itemWidths[i] })
+          item.height(context, { ...box, width: itemWidths[i] })
         )
       )
     );
   }
 
   draw(context: Context, box: BoundingBox) {
-    const boxes = this.boxes(context, { ...box });
-
-    this?.style?.background?.draw(context, box);
-
+    const boxes = this.boxes(context, box);
     this.items.forEach((i, c) => {
       i.draw(context, boxes[c]);
     });
   }
 
   private boxes(context: Context, box: BoundingBox): BoundingBox[] {
-    const bounds = removeMargins(box, this.style.margin);
-    const itemWidths = this.itemWidths(bounds);
+    const itemWidths = this.itemWidths(box);
 
     const boxes = [];
-    const y = bounds.y;
-    const height = this.height(context, bounds);
+    const y = box.y;
+    const height = this.height(context, box);
 
-    let x = bounds.x;
+    let x = box.x;
 
     this.items.forEach((_, i) => {
       const width = itemWidths[i];

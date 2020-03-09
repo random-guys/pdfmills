@@ -24,17 +24,12 @@ export class AutoFlex implements Element {
 
   draw(context: Context, box: BoundingBox) {
     const boxes = this.boxes(context, box);
-
-    this.style?.background?.draw(context, box);
-
     this.items.forEach((i, c) => {
       i.draw(context, boxes[c]);
     });
   }
 
   private boxes(context: Context, box: BoundingBox) {
-    box = removeMargins(box, this.style.margin);
-
     const itemWidths = [];
     let floatItemCount = 0;
 

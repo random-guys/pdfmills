@@ -25,17 +25,12 @@ export class Block implements Element {
 
   draw(context: Context, box: BoundingBox): void {
     const boxes = this.boxes(context, box);
-
-    this?.style?.background?.draw(context, box);
-
     this.elements.forEach((el, i) => {
       el.draw(context, boxes[i]);
     });
   }
 
   protected boxes(context: Context, box: BoundingBox): BoundingBox[] {
-    box = removeMargins(box, this.style.margin);
-
     const boxes: BoundingBox[] = [];
 
     let y = box.y;

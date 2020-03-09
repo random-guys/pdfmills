@@ -7,13 +7,20 @@ import { Block } from "../block";
  * its children
  */
 export class FlexBlock extends Block {
+  /**
+   * Create a new block layout.
+   * @param elements list of elements to layout
+   */
+  constructor(protected elements: Element[]) {
+    super(elements);
+    this.width = memoize(this.width.bind(this));
+  }
+
   width(context: Context, box: BoundingBox): number {
     return Math.max(...this.elements.map(i => i.width(context, box)));
   }
 
   boxes(context: Context, box: BoundingBox): BoundingBox[] {
-    box = removeMargins(box, this.style.margin);
-
     const boxes: BoundingBox[] = [];
 
     let y = box.y;

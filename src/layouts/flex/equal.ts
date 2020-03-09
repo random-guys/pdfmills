@@ -24,17 +24,12 @@ export class EqualFlex implements Element {
 
   draw(context: Context, box: BoundingBox) {
     const boxes = this.boxes(context, { ...box });
-
-    this?.style?.background?.draw(context, box);
-
     this.items.forEach((i, c) => {
       i.draw(context, boxes[c]);
     });
   }
 
   private boxes(context: Context, box: BoundingBox) {
-    box = removeMargins(box, this.style.margin);
-
     const defaultWidth = box.width / this.items.length;
     let originalWidth = 0;
     let floatItemCount = 0;
