@@ -22,7 +22,9 @@ export class RatioFlex implements Element {
   }
 
   itemWidths(box: BoundingBox) {
-    return this.ratios.map(x => truncate((x / 100) * box.width));
+    const widths = this.ratios.map((x) => truncate((x / 100) * box.width));
+    this.items.forEach((item, i) => (item.itemWidth = widths[i]));
+    return widths;
   }
 
   height(context: Context, box: BoundingBox) {

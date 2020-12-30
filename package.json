@@ -1,6 +1,6 @@
 {
   "name": "@random-guys/pdfmills",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Wrapper around pdfkit",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -40,6 +40,6 @@
   "dependencies": {
     "lodash": "^4.17.15",
     "memoizee": "^0.4.14",
-    "pdfkit": "^0.10.0"
+    "pdfkit": "^0.11.0"
   }
 }
