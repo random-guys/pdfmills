@@ -1,6 +1,6 @@
 # pdfmills
 
-A simple wrapper around [pdfkit](https://github.com/foliojs/pdfkit) that favors declarative style.
+A simple DSL wrapper around [pdfkit](https://github.com/foliojs/pdfkit)
 
 ## What's inside
 
